@@ -1,5 +1,6 @@
 import AppContainer from "@components/AppContainer";
 import AppInput from "@components/AppInput";
+import AppPasswordInput from "@components/AppPasswordInput";
 import AppText from "@components/AppText";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StatusBar } from "expo-status-bar";
@@ -37,7 +38,7 @@ export default function Index() {
       <AppButton title="Hello World" />
       <AppInput placeholder="seu nome" label="Nome" />
       <AppInput placeholder="exemplo@email.com" />
-      <AppInput placeholder="sua senha" label="Senha" />
+      <AppPasswordInput placeholder="senha" />
       <AppContainer direction="column" justify="space-between">
         <AppContainer direction="row" justify="space-around">
           <AppButton
