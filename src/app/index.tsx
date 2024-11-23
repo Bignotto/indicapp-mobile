@@ -1,17 +1,18 @@
 import AppContainer from "@components/AppContainer";
 import AppInput from "@components/AppInput";
+import AppNumberInput from "@components/AppNumberInput";
 import AppPasswordInput from "@components/AppPasswordInput";
 import AppText from "@components/AppText";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components/native";
 import AppButton from "../components/AppButton";
 
 export default function Index() {
   const theme = useTheme();
   return (
-    <View
+    <ScrollView
       style={{
         flex: 1,
         // justifyContent: "center",
@@ -39,6 +40,12 @@ export default function Index() {
       <AppInput placeholder="seu nome" label="Nome" />
       <AppInput placeholder="exemplo@email.com" />
       <AppPasswordInput placeholder="senha" />
+      <AppNumberInput
+        label="Valor"
+        // currency="R$"
+        unit="kg"
+        placeholder="0,00"
+      />
       <AppContainer direction="column" justify="space-between">
         <AppContainer direction="row" justify="space-around">
           <AppButton
@@ -82,6 +89,6 @@ export default function Index() {
           <AppButton title="Negative" variant="negative" />
         </AppContainer>
       </AppContainer>
-    </View>
+    </ScrollView>
   );
 }
