@@ -27,16 +27,16 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider theme={DefaultTheme}>
-        <SafeAreaView style={{ flex: 1 }}>
+    <ThemeProvider theme={DefaultTheme}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack
             screenOptions={{
               headerShown: false,
             }}
           />
-        </SafeAreaView>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+        </GestureHandlerRootView>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
