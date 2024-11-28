@@ -1,4 +1,5 @@
 import AppContainer from "@components/AppContainer";
+import AppDatePicker from "@components/AppDatePicker";
 import AppInput from "@components/AppInput";
 import AppNumberInput from "@components/AppNumberInput";
 import AppPasswordInput from "@components/AppPasswordInput";
@@ -17,7 +18,7 @@ export default function Index() {
         flex: 1,
         // justifyContent: "center",
         // alignItems: "center",
-        padding: 20,
+        padding: 40,
       }}
     >
       <StatusBar style="inverted" />
@@ -42,10 +43,11 @@ export default function Index() {
       <AppPasswordInput placeholder="senha" />
       <AppNumberInput
         label="Valor"
-        // currency="R$"
+        currency="R$"
         unit="kg"
         placeholder="0,00"
       />
+      <AppDatePicker onChangeDate={(date) => console.log(date)} />
       <AppContainer direction="column" justify="space-between">
         <AppContainer direction="row" justify="space-around">
           <AppButton
@@ -89,6 +91,7 @@ export default function Index() {
           <AppButton title="Negative" variant="negative" />
         </AppContainer>
       </AppContainer>
+      <AppDatePicker onChangeDate={(date) => console.log(date)} />
     </ScrollView>
   );
 }
