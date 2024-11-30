@@ -16,6 +16,7 @@ interface WrapperProps {
 }
 
 export const ButtonWrapper = styled.View<WrapperProps>`
+flex: 1;
   overflow: hidden;
   border-radius: 14px;
   border: 1px solid

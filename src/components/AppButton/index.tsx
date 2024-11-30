@@ -67,7 +67,7 @@ export default function AppButton({
           <AppText
             bold
             color={textColor}
-            size={"sm"}
+            size={size}
             style={{
               marginLeft: leftIcon ? 0 : 8,
               marginRight: rightIcon ? 0 : 8,
