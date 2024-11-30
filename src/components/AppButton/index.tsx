@@ -3,7 +3,7 @@ import { ActivityIndicator, View } from "react-native";
 import { RectButtonProps } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 import AppText from "../AppText";
-import { ButtonContainer, ButtonWrapper } from "./styles";
+import { ButtonContainer } from "./styles";
 
 type AppButtonProps = RectButtonProps & {
   title?: string;
@@ -60,25 +60,30 @@ export default function AppButton({
     : theme.colors.white;
 
   return (
-    <ButtonWrapper outline={outline} color={buttonColor} enabled={enabled}>
-      <ButtonContainer enabled={enabled} {...rest}>
-        {leftIcon && <View style={{ marginLeft: 8 }}>{leftIcon}</View>}
-        {title && (
-          <AppText
-            bold
-            color={textColor}
-            size={size}
-            style={{
-              marginLeft: leftIcon ? 0 : 8,
-              marginRight: rightIcon ? 0 : 8,
-              marginTop: leftIcon || rightIcon ? 2 : 0,
-            }}
-          >
-            {isLoading ? <ActivityIndicator /> : title}
-          </AppText>
-        )}
-        {rightIcon && <View style={{ marginRight: 8 }}>{rightIcon}</View>}
-      </ButtonContainer>
-    </ButtonWrapper>
+    // <ButtonWrapper outline={outline} color={buttonColor} enabled={enabled}>
+    <ButtonContainer
+      enabled={enabled}
+      color={buttonColor}
+      outline={outline}
+      {...rest}
+    >
+      {leftIcon && <View style={{ marginLeft: 8 }}>{leftIcon}</View>}
+      {title && (
+        <AppText
+          bold
+          color={textColor}
+          size={size}
+          style={{
+            marginLeft: leftIcon ? 0 : 8,
+            marginRight: rightIcon ? 0 : 8,
+            marginTop: leftIcon || rightIcon ? 2 : 0,
+          }}
+        >
+          {isLoading ? <ActivityIndicator /> : title}
+        </AppText>
+      )}
+      {rightIcon && <View style={{ marginRight: 8 }}>{rightIcon}</View>}
+    </ButtonContainer>
+    // </ButtonWrapper>
   );
 }

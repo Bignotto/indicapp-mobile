@@ -1,6 +1,7 @@
 import AppButton from "@components/AppButton";
 import AppLogo from "@components/AppLogo";
 import AppText from "@components/AppText";
+import { router } from "expo-router";
 import { View } from "react-native";
 
 export default function Index() {
@@ -8,7 +9,7 @@ export default function Index() {
     <View
       style={{
         flex: 1,
-        backgroundColor: "#fff",
+        // backgroundColor: "#fff",
         paddingHorizontal: 12,
       }}
     >
@@ -49,8 +50,12 @@ export default function Index() {
             marginTop: 64,
           }}
         >
-          <AppButton title="Entrar" />
-          <AppButton title="Registrar" outline />
+          <AppButton title="Entrar" onPress={() => router.push("/login")} />
+          <AppButton
+            title="Registrar"
+            outline
+            onPress={() => router.push("/register")}
+          />
         </View>
       </View>
     </View>
