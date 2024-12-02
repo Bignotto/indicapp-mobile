@@ -20,15 +20,15 @@ export default function AppLogo({ size = "md", color }: AppLogoProps) {
         <FontAwesome5
           name="tools"
           size={LogoSizes[size]}
-          color={color ?? theme.colors.primary}
+          color={color ?? theme.colors.text}
         />
         <FontAwesome5
           name="check-circle"
           size={LogoSizes[size]}
-          color={color ?? theme.colors.primary}
+          color={color ?? theme.colors.text}
         />
       </IconsContainer>
-      <LogoText size={size} color={color ?? theme.colors.primary}>
+      <LogoText size={size} color={color ?? theme.colors.text_gray}>
         IndicApp
       </LogoText>
     </Container>

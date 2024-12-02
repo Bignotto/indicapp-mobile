@@ -13,3 +13,11 @@ export const LogoSizes: { [size: string]: number } = {
   sm: 20,
   xsm: 8,
 };
+
+export const Spaces: { [size: string]: number } = {
+  xlg: 20,
+  lg: 16,
+  md: 12,
+  sm: 8,
+  xsm: 4,
+};

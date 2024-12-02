@@ -37,7 +37,7 @@ export default function Index() {
         <AppText size="xlg" bold>
           Bem vindo!
         </AppText>
-        <AppText>
+        <AppText style={{ textAlign: "center" }}>
           Vamos conectar você com os melhores prestadores de serviço da sua
           região!
         </AppText>
