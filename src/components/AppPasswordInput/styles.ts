@@ -14,6 +14,7 @@ interface ButtonProps extends RectButtonProps {
 }
 
 export const Container = styled.View`
+width: 100%;
 `;
 
 export const Wrapper = styled.View<WrapperProps>`

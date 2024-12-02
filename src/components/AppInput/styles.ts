@@ -6,7 +6,7 @@ interface WrapperProps {
 }
 
 export const Container = styled.View`
-
+width: 100%;
 `;
 
 export const Wrapper = styled.View<WrapperProps>`
@@ -18,6 +18,7 @@ export const Wrapper = styled.View<WrapperProps>`
 
 export const InputComponent = styled.TextInput`
 padding: 12px;
+
 font-family: ${({ theme }) => theme.fonts.regular};
 font-size: ${RFValue(16)}px;
 
