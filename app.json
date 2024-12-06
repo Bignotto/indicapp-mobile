@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bignotto.indicappmobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.bignotto.indicappmobile"
     },
     "web": {
       "bundler": "metro",
@@ -23,6 +25,12 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.873465518843-7eu5rctk4e9ep31cr88p5t282ffehllf"
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -37,6 +45,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f69c712b-99d9-4720-a65f-f0c95776718c"
+      }
     }
   }
 }

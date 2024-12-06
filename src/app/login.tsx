@@ -6,6 +6,10 @@ import AppPasswordInput from "@components/AppPasswordInput";
 import AppSpacer from "@components/AppSpacer";
 import AppText from "@components/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 import { View } from "react-native";
 
 export default function Login() {
@@ -43,12 +47,41 @@ export default function Login() {
           leftIcon={<FontAwesome5 name="google" size={24} color="black" />}
           variant="solid"
           outline
+          onPress={async () => {
+            try {
+              await GoogleSignin.hasPlayServices();
+              const userInfo = await GoogleSignin.signIn();
+              console.log(userInfo);
+              if (userInfo!.data!.idToken) {
+                // const { data, error } = await supabase.auth.signInWithIdToken({
+                //   provider: 'google',
+                //   token: userInfo.data.idToken,
+                // })
+                //console.log(error, data)
+              } else {
+                throw new Error("no ID token present!");
+              }
+            } catch (error: any) {
+              if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+              } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (e.g. sign in) is in progress already
+              } else if (
+                error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE
+              ) {
+                // play services not available or outdated
+              } else {
+                // some other error happened
+              }
+            }
+            console.log("google");
+          }}
         />
-        <AppButton
+        {/* <AppButton
           leftIcon={<FontAwesome5 name="facebook-f" size={24} color="black" />}
           variant="solid"
           outline
-        />
+        /> */}
         <AppButton
           leftIcon={<FontAwesome5 name="apple" size={24} color="black" />}
           variant="solid"
