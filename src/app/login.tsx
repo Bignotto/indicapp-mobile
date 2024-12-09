@@ -50,7 +50,9 @@ export default function Login() {
           onPress={async () => {
             try {
               await GoogleSignin.hasPlayServices();
-              const userInfo = await GoogleSignin.signIn();
+              const userInfo = await GoogleSignin.signIn().catch((err) => {
+                console.log(err);
+              });
               console.log(userInfo);
               if (userInfo!.data!.idToken) {
                 // const { data, error } = await supabase.auth.signInWithIdToken({
