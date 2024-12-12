@@ -14,14 +14,17 @@ import {
 } from "@expo-google-fonts/inter";
 
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { IOS_CLIENT_ID, WEB_CLIENT_ID } from "../keys";
 
 GoogleSignin.configure({
-  webClientId: WEB_CLIENT_ID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-  //scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+  webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   forceCodeForRefreshToken: false, // [Android] related to `serverAuthCode`, read the docs link below *.
-  iosClientId: IOS_CLIENT_ID, // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+  iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID, // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+});
+
+console.log({
+  env: process.env.NODE_ENV,
+  app: process.env.EXPO_PUBLIC_THE_APP_NAME,
 });
 
 export default function RootLayout() {
