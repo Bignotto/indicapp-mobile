@@ -7,6 +7,7 @@ import AppSpacer from "@components/AppSpacer";
 import AppText from "@components/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
+import { router } from "expo-router";
 import { View } from "react-native";
 
 export default function Login() {
@@ -45,7 +46,10 @@ export default function Login() {
           leftIcon={<FontAwesome5 name="google" size={24} color="black" />}
           variant="solid"
           outline
-          onPress={googleSignIn}
+          onPress={async () => {
+            await googleSignIn();
+            router.replace("/");
+          }}
         />
         {/* <AppButton
           leftIcon={<FontAwesome5 name="facebook-f" size={24} color="black" />}

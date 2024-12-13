@@ -54,7 +54,6 @@ function AuthProvider({ children }: AuthProviderProps) {
           provider: "google",
           token: userInfo.data.idToken ?? "",
         });
-        console.log(data, error);
       } else {
         throw new Error("no ID token present!");
       }
