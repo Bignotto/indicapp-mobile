@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeProvider } from "styled-components/native";
@@ -13,13 +13,24 @@ import {
   useFonts,
 } from "@expo-google-fonts/inter";
 
+import { AuthProvider } from "@hooks/AuthContext";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { supabase } from "@services/supabase";
+import { AppState } from "react-native";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
   offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   forceCodeForRefreshToken: false, // [Android] related to `serverAuthCode`, read the docs link below *.
   iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID, // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+});
+
+AppState.addEventListener("change", (state) => {
+  if (state === "active") {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
 });
 
 console.log({
@@ -44,15 +55,9 @@ export default function RootLayout() {
     <ThemeProvider theme={DefaultTheme}>
       <SafeAreaView style={{ flex: 1 }}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="index" />
-            <Stack.Screen name="login" />
-            <Stack.Screen name="register" />
-          </Stack>
+          <AuthProvider>
+            <Slot />
+          </AuthProvider>
         </GestureHandlerRootView>
       </SafeAreaView>
     </ThemeProvider>

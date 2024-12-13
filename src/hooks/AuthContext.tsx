@@ -5,7 +5,13 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { supabase } from "@services/supabase";
 import { AuthSession } from "@supabase/supabase-js";
-import { createContext, ReactNode, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -26,6 +32,8 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [session, setSession] = useState<AuthSession | null>(null);
+
   async function signOut() {
     try {
       setIsLoading(true);
@@ -41,7 +49,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      // console.log(userInfo);
       if (isSuccessResponse(userInfo)) {
         const { data, error } = await supabase.auth.signInWithIdToken({
           provider: "google",
@@ -79,10 +86,20 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
-        session: null,
+        session,
         signIn: () => Promise.resolve(),
         signOut,
         isLoading,
@@ -94,3 +111,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   );
 }
+
+function useAuth() {
+  return useContext(AuthContext);
+}
+
+export { AuthProvider, useAuth };
