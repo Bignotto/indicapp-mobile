@@ -5,15 +5,17 @@ import { Redirect, Stack } from "expo-router";
 export default function AppLayout() {
   const { session, isLoading } = useAuth();
 
-  console.log(JSON.stringify(session, null, 2));
-
   if (isLoading) {
     return <AppText>Carregando...</AppText>;
   }
 
   if (!session) {
-    return <Redirect href="/" />;
+    return <Redirect href="/onboarding" />;
   }
 
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+    </Stack>
+  );
 }

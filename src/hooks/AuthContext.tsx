@@ -37,7 +37,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   async function signOut() {
     try {
       setIsLoading(true);
+      await GoogleSignin.signOut();
       await supabase.auth.signOut();
+      setSession(null);
     } catch (error) {
       console.log(error);
     } finally {
@@ -54,6 +56,9 @@ function AuthProvider({ children }: AuthProviderProps) {
           provider: "google",
           token: userInfo.data.idToken ?? "",
         });
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          setSession(session);
+        });
       } else {
         throw new Error("no ID token present!");
       }
@@ -68,21 +73,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         // some other error happened
       }
     }
+    setIsLoading(false);
     console.log("google");
-  }
-
-  async function signIn({}) {
-    try {
-      setIsLoading(true);
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-      });
-      console.log(data, error);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   useEffect(() => {

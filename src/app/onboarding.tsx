@@ -4,7 +4,7 @@ import AppText from "@components/AppText";
 import { router } from "expo-router";
 import { View } from "react-native";
 
-export default function OnBoarding() {
+export default function Onboarding() {
   return (
     <View
       style={{
