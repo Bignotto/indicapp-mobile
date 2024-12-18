@@ -3,6 +3,7 @@ import {
   isSuccessResponse,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import api from "@services/api";
 import { supabase } from "@services/supabase";
 import { AuthSession } from "@supabase/supabase-js";
 import {
@@ -56,6 +57,18 @@ function AuthProvider({ children }: AuthProviderProps) {
           provider: "google",
           token: userInfo.data.idToken ?? "",
         });
+        if (error) {
+          throw error;
+        }
+        const response = await api
+          .get(`/users/${data.user.id}`)
+          .catch((error) => {
+            console.log(error.response.data);
+            console.log(error.response.status);
+          });
+
+        console.log({ response });
+
         supabase.auth.getSession().then(({ data: { session } }) => {
           setSession(session);
         });
