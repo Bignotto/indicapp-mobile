@@ -30,7 +30,7 @@ interface IAuthContextData {
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [session, setSession] = useState<AuthSession | null>(null);
@@ -49,25 +49,33 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function googleSignIn() {
+    //NEXT: Tapa na função
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+
       if (isSuccessResponse(userInfo)) {
         const { data, error } = await supabase.auth.signInWithIdToken({
           provider: "google",
           token: userInfo.data.idToken ?? "",
         });
+
         if (error) {
           throw error;
         }
+
         const response = await api
-          .get(`/users/${data.user.id}`)
+          .get(`/users/email/${userInfo.data.user.email}`)
           .catch((error) => {
             console.log(error.response.data);
             console.log(error.response.status);
+            return null;
           });
 
-        console.log({ response });
+        if (response) {
+          const responseData = response.data;
+          console.log({ responseData });
+        }
 
         supabase.auth.getSession().then(({ data: { session } }) => {
           setSession(session);
@@ -76,6 +84,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         throw new Error("no ID token present!");
       }
     } catch (error: any) {
+      //NEXT: Tapa nos erros
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -91,8 +100,11 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   useEffect(() => {
+    setIsLoading(true);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      setIsLoading(false);
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
