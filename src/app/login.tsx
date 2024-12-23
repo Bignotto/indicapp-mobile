@@ -51,11 +51,6 @@ export default function Login() {
             router.replace("/");
           }}
         />
-        {/* <AppButton
-          leftIcon={<FontAwesome5 name="facebook-f" size={24} color="black" />}
-          variant="solid"
-          outline
-        /> */}
         <AppButton
           leftIcon={<FontAwesome5 name="apple" size={24} color="black" />}
           variant="solid"

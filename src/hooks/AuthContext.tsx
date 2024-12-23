@@ -14,12 +14,20 @@ import {
   useState,
 } from "react";
 
+export type UserProfile = {
+  id: string;
+  email: string;
+  name: string;
+  avatar_url: string;
+};
+
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 interface IAuthContextData {
   session: AuthSession | null;
+  user: UserProfile | null;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   googleSignIn: () => Promise<void>;
@@ -32,6 +40,7 @@ const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
 
   const [session, setSession] = useState<AuthSession | null>(null);
 
@@ -41,6 +50,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       await GoogleSignin.signOut();
       await supabase.auth.signOut();
       setSession(null);
+      setUser(null);
     } catch (error) {
       console.log(error);
     } finally {
@@ -49,7 +59,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function googleSignIn() {
-    //NEXT: Tapa na função
+    setIsLoading(true);
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -65,17 +75,23 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
 
         const response = await api
+          // .get(`/users/email/bignotto2@gmail.com`)
           .get(`/users/email/${userInfo.data.user.email}`)
           .catch((error) => {
             console.log(error.response.data);
             console.log(error.response.status);
-            return null;
+            setIsLoading(false);
+            throw error;
           });
 
-        if (response) {
-          const responseData = response.data;
-          console.log({ responseData });
-        }
+        console.log({ user: response.data.user });
+
+        setUser({
+          id: response.data.user.id,
+          email: response.data.user.email,
+          name: response.data.user.name,
+          avatar_url: response.data.user.image,
+        });
 
         supabase.auth.getSession().then(({ data: { session } }) => {
           setSession(session);
@@ -84,7 +100,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         throw new Error("no ID token present!");
       }
     } catch (error: any) {
-      //NEXT: Tapa nos erros
+      //TODO: Tapa nos erros
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -116,6 +132,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         session,
+        user,
         signIn: () => Promise.resolve(),
         signOut,
         isLoading,
