@@ -77,9 +77,21 @@ function AuthProvider({ children }: AuthProviderProps) {
         const response = await api
           // .get(`/users/email/bignotto2@gmail.com`)
           .get(`/users/email/${userInfo.data.user.email}`)
-          .catch((error) => {
+          .catch(async (error) => {
+            if (error.response.status === 404) {
+              const userResponse = await api.post(`/users`, {
+                name: userInfo.data.user.name,
+                email: userInfo.data.user.email,
+                image: data.user.user_metadata.avatar_url,
+                accountProvider: "GOOGLE",
+                accountId: data.user.user_metadata.sub,
+                phoneConfirmed: false,
+                emailConfirmed: true,
+              });
+            }
             console.log(error.response.data);
-            console.log(error.response.status);
+            console.log({ status: error.response.status });
+            console.log({ theUser: data.user.user_metadata });
             setIsLoading(false);
             throw error;
           });

@@ -31,7 +31,10 @@ export default function Register() {
       <View style={{ gap: 8, marginVertical: 32, width: "80%" }}>
         <AppInput placeholder="email@server.com" />
         <AppPasswordInput placeholder="senha" />
-        <AppPasswordInput placeholder="confirme sua senha" />
+        <AppPasswordInput
+          placeholder="confirme sua senha"
+          error="As senhas não conferem"
+        />
         <AppButton title="Registrar" variant="solid" />
         <AppText
           size="sm"
@@ -47,11 +50,6 @@ export default function Register() {
       <View style={{ flexDirection: "row", gap: 16 }}>
         <AppButton
           leftIcon={<FontAwesome5 name="google" size={24} color="black" />}
-          variant="solid"
-          outline
-        />
-        <AppButton
-          leftIcon={<FontAwesome5 name="facebook-f" size={24} color="black" />}
           variant="solid"
           outline
         />

@@ -2,6 +2,7 @@ import AppButton from "@components/AppButton";
 import AppLogo from "@components/AppLogo";
 import AppText from "@components/AppText";
 import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 
 export default function Onboarding() {
@@ -13,6 +14,7 @@ export default function Onboarding() {
         paddingHorizontal: 12,
       }}
     >
+      <StatusBar style="inverted" />
       {/* <Image
         source={require("../../assets/images/welcome_logo.png")}
         style={{ width: 200, height: 200 }}

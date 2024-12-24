@@ -7,17 +7,16 @@ import { router } from "expo-router";
 export default function Index() {
   const { session, signOut, user } = useAuth();
 
-  if (!user) {
-    router.replace("/createProfile");
-  }
-
   return (
     <AppContainer>
       <AppText>{session?.user.email}</AppText>
       {user && (
-        <AppText>
-          {user.name} - {user.email}
-        </AppText>
+        <>
+          <AppText>
+            {user.name} - {user.email}
+          </AppText>
+          <AppText>{JSON.stringify(user, null, 2)}</AppText>
+        </>
       )}
       <AppButton title="Sair" variant="solid" onPress={signOut} />
       <AppButton
