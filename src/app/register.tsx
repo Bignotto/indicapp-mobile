@@ -6,9 +6,46 @@ import AppPasswordInput from "@components/AppPasswordInput";
 import AppSpacer from "@components/AppSpacer";
 import AppText from "@components/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { View } from "react-native";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuth } from "@hooks/AuthContext";
+import { EmailInUseError } from "@utils/errors/EmailInUse";
+import { router } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
+import { Alert, View } from "react-native";
+import * as yup from "yup";
+
+const formValidation = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), undefined], "Senhas não conferem")
+    .required(),
+});
 
 export default function Register() {
+  const { signUp } = useAuth();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formValidation),
+  });
+
+  async function onSubmit({ email, password, passwordConfirmation }: any) {
+    try {
+      await signUp(email, password);
+      router.replace("/");
+    } catch (error) {
+      if (error instanceof EmailInUseError) {
+        Alert.alert("Erro ao cadastrar usuário", "E-mail já cadastrado.");
+        return;
+      }
+    }
+  }
+
   return (
     <AppContainer
       direction="column"
@@ -29,10 +66,49 @@ export default function Register() {
         </AppText>
       </AppContainer>
       <View style={{ gap: 8, marginVertical: 32, width: "80%" }}>
-        <AppInput placeholder="email@server.com" />
-        <AppPasswordInput placeholder="senha" />
-        <AppPasswordInput placeholder="confirme sua senha" />
-        <AppButton title="Registrar" variant="solid" />
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AppInput
+              placeholder="email@server.com"
+              onChangeText={onChange}
+              value={value}
+              onBlur={onBlur}
+              error={errors.email?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AppPasswordInput
+              placeholder="senha"
+              onChangeText={onChange}
+              value={value}
+              onBlur={onBlur}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="passwordConfirmation"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AppPasswordInput
+              placeholder="confirme sua senha"
+              onChangeText={onChange}
+              value={value}
+              onBlur={onBlur}
+              error={errors.passwordConfirmation?.message}
+            />
+          )}
+        />
+        <AppButton
+          title="Registrar"
+          variant="solid"
+          onPress={() => handleSubmit(onSubmit)()}
+        />
         <AppText
           size="sm"
           bold
@@ -47,11 +123,6 @@ export default function Register() {
       <View style={{ flexDirection: "row", gap: 16 }}>
         <AppButton
           leftIcon={<FontAwesome5 name="google" size={24} color="black" />}
-          variant="solid"
-          outline
-        />
-        <AppButton
-          leftIcon={<FontAwesome5 name="facebook-f" size={24} color="black" />}
           variant="solid"
           outline
         />

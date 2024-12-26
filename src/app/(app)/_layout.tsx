@@ -3,7 +3,7 @@ import { useAuth } from "@hooks/AuthContext";
 import { Redirect, Stack } from "expo-router";
 
 export default function AppLayout() {
-  const { session, isLoading } = useAuth();
+  const { session, isLoading, user } = useAuth();
 
   if (isLoading) {
     return <AppText>Carregando...</AppText>;
@@ -16,6 +16,7 @@ export default function AppLayout() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="createProfile" options={{ headerShown: false }} />
     </Stack>
   );
 }
