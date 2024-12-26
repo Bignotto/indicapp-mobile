@@ -7,11 +7,27 @@ import AppSpacer from "@components/AppSpacer";
 import AppText from "@components/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
+import { InvalidCredentialsError } from "@utils/errors/InvalidCredentials";
 import { router } from "expo-router";
-import { View } from "react-native";
+import { useState } from "react";
+import { Alert, View } from "react-native";
 
 export default function Login() {
-  const { googleSignIn } = useAuth();
+  const { googleSignIn, signIn } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleLogin() {
+    try {
+      await signIn(email.trim().toLowerCase(), password);
+      router.replace("/");
+    } catch (error) {
+      if (error instanceof InvalidCredentialsError)
+        return Alert.alert("E-Mail e senha não conferem.");
+    }
+  }
+
   return (
     <AppContainer
       direction="column"
@@ -27,9 +43,17 @@ export default function Login() {
       </AppText>
       <AppText>Que bom que você voltou!</AppText>
       <View style={{ gap: 8, marginVertical: 32, width: "80%" }}>
-        <AppInput placeholder="email@server.com" />
-        <AppPasswordInput placeholder="senha" />
-        <AppButton title="Entrar" variant="solid" />
+        <AppInput
+          placeholder="email@server.com"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <AppPasswordInput
+          placeholder="senha"
+          value={password}
+          onChangeText={setPassword}
+        />
+        <AppButton title="Entrar" variant="solid" onPress={handleLogin} />
         <AppText
           size="sm"
           bold
