@@ -4,28 +4,9 @@ import AppInput from "@components/AppInput";
 import AppSpacer from "@components/AppSpacer";
 import AppText from "@components/AppText";
 import { useAuth } from "@hooks/AuthContext";
-import { useNavigation } from "expo-router";
-import { useEffect } from "react";
 
-export default function Index() {
+export default function UserProfile() {
   const { session, signOut, user } = useAuth();
-
-  const navigation = useNavigation();
-
-  //NEXT: fix this
-  /**
-   * create user automatically without the need to complete the profile
-   */
-
-  useEffect(() => {
-    navigation.addListener("beforeRemove", (e) => {
-      e.preventDefault();
-      console.log(e.data.action.type);
-      if (e.data.action.type !== "GO_BACK") {
-        navigation.dispatch(e.data.action);
-      }
-    });
-  }, []);
 
   return (
     <AppContainer>
