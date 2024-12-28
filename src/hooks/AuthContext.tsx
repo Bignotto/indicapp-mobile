@@ -195,9 +195,18 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log("useEffect auth hook");
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email ?? "",
+          name: session.user.user_metadata.full_name,
+          avatar_url: session.user.user_metadata.picture,
+        });
+      }
       setIsLoading(false);
     });
 
