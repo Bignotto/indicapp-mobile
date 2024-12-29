@@ -19,12 +19,14 @@ export default {
     text_dark: "#0C1E29",
     text_gray: "#5B7485",
     text_disabled: "#B2BCBF",
-    shape: "#EAEEEF",
     attention: "#f1c47b",
 
     border: "#C4C4C4",
 
     white: "#FFFFFF",
+
+    shape: "#EAEEEF",
+    shape_dark: "#364A59"
   },
 
   fonts: {
