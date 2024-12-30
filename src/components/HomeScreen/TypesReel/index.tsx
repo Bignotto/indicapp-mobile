@@ -20,6 +20,7 @@ export default function TypesReel() {
     "Vidraceiro",
     "Decoração",
   ];
+
   useEffect(() => {
     console.log(types);
   }, []);
