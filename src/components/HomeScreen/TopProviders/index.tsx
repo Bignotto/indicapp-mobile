@@ -1,17 +1,12 @@
-import AppButton from "@components/AppButton";
 import AppText from "@components/AppText";
-import { View } from "react-native";
+import ProviderCard from "@components/ProviderCard";
 import { ScrollView } from "react-native-gesture-handler";
+import { Container } from "./styles";
 
 export default function TopProviders() {
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          paddingHorizontal: 16,
-        }}
-      >
+      <Container>
         <AppText size="md" bold>
           Top Prestadores
         </AppText>
@@ -26,17 +21,10 @@ export default function TopProviders() {
           }}
         >
           {Array.from({ length: 10 }).map((_, i) => {
-            return (
-              <AppButton
-                key={i}
-                title={`Provider ${i}`}
-                outline={true}
-                size="sm"
-              />
-            );
+            return <ProviderCard key={i} />;
           })}
         </ScrollView>
-      </View>
+      </Container>
     </>
   );
 }
