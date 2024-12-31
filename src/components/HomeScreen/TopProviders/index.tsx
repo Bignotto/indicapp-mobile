@@ -1,9 +1,11 @@
 import AppText from "@components/AppText";
 import ProviderCard from "@components/ProviderCard";
 import { ScrollView } from "react-native-gesture-handler";
+import { useTheme } from "styled-components";
 import { Container } from "./styles";
 
 export default function TopProviders() {
+  const theme = useTheme();
   return (
     <>
       <Container>

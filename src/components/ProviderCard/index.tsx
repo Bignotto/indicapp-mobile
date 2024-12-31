@@ -1,3 +1,5 @@
+import AppSpacer from "@components/AppSpacer";
+import AppStarsScore from "@components/AppStarsScore";
 import AppText from "@components/AppText";
 import { Container, ProviderImage, TextContainer } from "./styles";
 
@@ -14,6 +16,8 @@ export default function ProviderCard() {
           Dunha da Silva
         </AppText>
         <AppText size="sm">Jardineiro</AppText>
+        <AppSpacer verticalSpace="lg" />
+        <AppStarsScore score={45} reviewCount={10} size="sm" format="numbers" />
       </TextContainer>
     </Container>
   );

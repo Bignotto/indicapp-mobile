@@ -3,7 +3,7 @@ export const TextSizes: { [size: string]: number } = {
   lg: 24,
   md: 16,
   sm: 14,
-  xsm: 10,
+  xsm: 11,
 };
 
 export const LogoSizes: { [size: string]: number } = {
@@ -20,4 +20,20 @@ export const Spaces: { [size: string]: number } = {
   md: 12,
   sm: 8,
   xsm: 4,
+};
+
+export const BorderRadius: { [size: string]: number } = {
+  xlg: 20,
+  lg: 16,
+  md: 12,
+  sm: 8,
+  xsm: 4,
+};
+
+export const IconSizes: { [size: string]: number } = {
+  xlg: 40,
+  lg: 32,
+  md: 24,
+  sm: 16,
+  xsm: 8,
 };
