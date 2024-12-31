@@ -1,24 +1,48 @@
 import AppSpacer from "@components/AppSpacer";
 import AppStarsScore from "@components/AppStarsScore";
 import AppText from "@components/AppText";
-import { Container, ProviderImage, TextContainer } from "./styles";
+import {
+  ButtonContainer,
+  Container,
+  ProviderImage,
+  TextContainer,
+} from "./styles";
 
-export default function ProviderCard() {
+interface ProviderCardProps {
+  image?: string;
+  providerId: string;
+}
+
+export default function ProviderCard({
+  image = "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg",
+  providerId,
+}: ProviderCardProps) {
   return (
-    <Container>
-      <ProviderImage
-        source={{
-          uri: "https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-        }}
-      />
-      <TextContainer>
-        <AppText bold size="md">
-          Dunha da Silva
-        </AppText>
-        <AppText size="sm">Jardineiro</AppText>
-        <AppSpacer verticalSpace="lg" />
-        <AppStarsScore score={45} reviewCount={10} size="sm" format="numbers" />
-      </TextContainer>
-    </Container>
+    <ButtonContainer
+      onPress={() => {
+        console.log(`should navigate to provider profile ${providerId}`);
+      }}
+    >
+      <Container>
+        <ProviderImage
+          source={{
+            uri: image,
+          }}
+        />
+        <TextContainer>
+          <AppText bold size="md">
+            Dunha da Silva
+          </AppText>
+          <AppText size="sm">Jardineiro</AppText>
+          <AppSpacer verticalSpace="lg" />
+          <AppStarsScore
+            score={45}
+            reviewCount={10}
+            size="sm"
+            format="numbers"
+          />
+        </TextContainer>
+      </Container>
+    </ButtonContainer>
   );
 }
