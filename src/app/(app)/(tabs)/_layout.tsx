@@ -9,7 +9,7 @@ export default function TabLayout() {
   return (
     <>
       <StatusBar style="inverted" />
-      <Tabs screenOptions={{ tabBarActiveTintColor: theme.colors.primary }}>
+      <Tabs screenOptions={{ tabBarActiveTintColor: theme.colors.text }}>
         <Tabs.Screen
           name="index"
           options={{
