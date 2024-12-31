@@ -5,3 +5,8 @@ export const Container = styled.View`
   padding-left: 16px;
   padding-right: 16px;
 `
+
+export const TextContainer = styled.View`
+flex-direction: row;
+justify-content: space-between;
+`
