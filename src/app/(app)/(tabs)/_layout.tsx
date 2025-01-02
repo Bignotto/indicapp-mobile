@@ -1,17 +1,31 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "styled-components";
 
 export default function TabLayout() {
   const theme = useTheme();
 
+  // const segments = useSegments();
+  const path = usePathname();
+
+  const hide = path.includes("/provider");
+
   return (
     <>
-      <StatusBar style="inverted" />
-      <Tabs screenOptions={{ tabBarActiveTintColor: theme.colors.text }}>
+      <StatusBar backgroundColor={theme.colors.shape_dark} />
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: theme.colors.text,
+
+          tabBarStyle: {
+            display: hide ? "none" : "flex",
+          },
+        }}
+        initialRouteName="(main)"
+      >
         <Tabs.Screen
-          name="index"
+          name="(main)"
           options={{
             title: "Principal",
             tabBarIcon: ({ color }) => (
