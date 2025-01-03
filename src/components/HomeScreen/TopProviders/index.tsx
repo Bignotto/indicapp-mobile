@@ -1,13 +1,15 @@
 import AppText from "@components/AppText";
 import ProviderCard from "@components/ProviderCard";
 import Entypo from "@expo/vector-icons/Entypo";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 import { Container, TextContainer } from "./styles";
 
 export default function TopProviders() {
   const theme = useTheme();
+
+  const router = useRouter();
 
   return (
     <>
@@ -37,10 +39,17 @@ export default function TopProviders() {
           {Array.from({ length: 10 }).map((_, i) => {
             return (
               <ProviderCard
+                onPress={() =>
+                  router.push(`/(app)/(tabs)/(main)/provider/${i}`)
+                }
                 key={i}
                 providerId={i.toString()}
                 image="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                onPress={() => router.push("/(app)/(tabs)/(main)/provider")}
+                name="John Doe"
+                description="Jardineiro"
+                score={45}
+                reviewCount={10}
+                city="Rio Claro"
               />
             );
           })}

@@ -12,11 +12,21 @@ import {
 type ProviderCardProps = RectButtonProps & {
   image?: string;
   providerId: string;
+  name: string;
+  description: string;
+  score: number;
+  reviewCount: number;
+  city: string;
 };
 
 export default function ProviderCard({
   image = "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg",
   providerId,
+  name,
+  description,
+  score,
+  reviewCount,
+  city,
   ...rest
 }: ProviderCardProps) {
   return (
@@ -29,13 +39,13 @@ export default function ProviderCard({
         />
         <TextContainer>
           <AppText bold size="md">
-            Dunha da Silva
+            {name}
           </AppText>
-          <AppText size="sm">Jardineiro</AppText>
+          <AppText size="sm">{description}</AppText>
           <AppSpacer verticalSpace="lg" />
           <AppStarsScore
-            score={45}
-            reviewCount={10}
+            score={score}
+            reviewCount={reviewCount}
             size="sm"
             format="numbers"
           />
