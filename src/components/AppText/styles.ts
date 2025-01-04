@@ -10,6 +10,7 @@ export interface AppTextStyleProps extends TextProps {
   bold?: boolean;
   size?: "xlg" | "lg" | "md" | "sm" | "xsm";
   color?: string;
+  align?: 'center' | 'start' | 'end'
 }
 
 export const TextContainer = styled(Text) <AppTextStyleProps>`
@@ -17,4 +18,5 @@ export const TextContainer = styled(Text) <AppTextStyleProps>`
     bold ? theme.fonts.bold : theme.fonts.regular};
   font-size: ${({ theme, size = "md" }) => RFValue(TextSizes[size])}px;
   color: ${({ theme, color }) => (color ? color : theme.colors.text)};
+  text-align: ${({ theme, align = 'start' }) => align};
 `;
