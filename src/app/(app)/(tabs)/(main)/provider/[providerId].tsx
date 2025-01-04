@@ -1,8 +1,11 @@
 import AppButton from "@components/AppButton";
+import AppSpacer from "@components/AppSpacer";
 import AppStarsScore from "@components/AppStarsScore";
 import AppText from "@components/AppText";
+import ReviewCard from "@components/ReviewCard";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import reviews from "@utils/fakeData/reviews";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, View } from "react-native";
@@ -213,8 +216,36 @@ export default function Provider() {
           <AppText bold size="lg">
             Avaliações
           </AppText>
-          <AppText>{provider.description}</AppText>
+          <ScrollView
+            horizontal
+            contentContainerStyle={{
+              gap: 16,
+            }}
+            style={{
+              marginTop: 8,
+            }}
+          >
+            {reviews.slice(0, 3).map((review) => (
+              <ReviewCard
+                key={review.id}
+                image={review.reviewer.image}
+                reviewerId={review.reviewer.id.toString()}
+                name={review.reviewer.name}
+                title={review.title}
+                score={review.score}
+                reviewCount={1}
+              />
+            ))}
+          </ScrollView>
         </View>
+      </View>
+      <View>
+        <AppSpacer verticalSpace="lg" />
+        <AppSpacer verticalSpace="lg" />
+        <AppSpacer verticalSpace="lg" />
+        <AppSpacer verticalSpace="lg" />
+        <AppSpacer verticalSpace="lg" />
+        <AppSpacer verticalSpace="lg" />
       </View>
     </ScrollView>
   );
