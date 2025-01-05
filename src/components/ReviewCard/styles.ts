@@ -2,7 +2,8 @@ import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  flex-direction: row;
+  flex-direction: column;
+  padding: 16px;
 `
 
 export const ReviewerImage = styled.Image`
@@ -12,8 +13,13 @@ export const ReviewerImage = styled.Image`
 `
 
 export const TextContainer = styled.View`
-  margin-left: 16px;
-  padding-top: 4px;
+margin-bottom: 16px;
+
+`
+export const ReviewerContainer = styled.View`
+flex-direction: row;
+gap: 8px;
+align-items: center;
 `
 
 export const ButtonContainer = styled(RectButton)`

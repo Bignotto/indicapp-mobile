@@ -238,6 +238,7 @@ export default function Provider() {
                 reviewerId={review.reviewer.id.toString()}
                 name={review.reviewer.name}
                 title={review.title}
+                text={review.text}
                 score={review.score}
                 reviewCount={1}
               />
