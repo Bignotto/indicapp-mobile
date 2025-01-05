@@ -2,14 +2,9 @@ import AppSpacer from "@components/AppSpacer";
 import AppStarsScore from "@components/AppStarsScore";
 import AppText from "@components/AppText";
 import { RectButtonProps } from "react-native-gesture-handler";
-import {
-  ButtonContainer,
-  Container,
-  ProviderImage,
-  TextContainer,
-} from "./styles";
+import { ButtonContainer, Container, TextContainer } from "./styles";
 
-type ProviderCardProps = RectButtonProps & {
+type ServiceAdCardProps = RectButtonProps & {
   image?: string;
   providerId: string;
   name: string;
@@ -19,7 +14,7 @@ type ProviderCardProps = RectButtonProps & {
   city: string;
 };
 
-export default function ProviderCard({
+export default function ServiceAdCard({
   image = "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg",
   providerId,
   name,
@@ -28,15 +23,10 @@ export default function ProviderCard({
   reviewCount,
   city,
   ...rest
-}: ProviderCardProps) {
+}: ServiceAdCardProps) {
   return (
     <ButtonContainer {...rest}>
       <Container>
-        <ProviderImage
-          source={{
-            uri: image,
-          }}
-        />
         <TextContainer>
           <AppText bold size="md">
             {name}

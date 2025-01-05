@@ -1,55 +1,61 @@
+import AppAvatar from "@components/AppAvatar";
 import AppSpacer from "@components/AppSpacer";
 import AppStarsScore from "@components/AppStarsScore";
 import AppText from "@components/AppText";
+import truncatePreserveWord from "@utils/helpers/truncateText";
 import { RectButtonProps } from "react-native-gesture-handler";
+import { useTheme } from "styled-components";
 import {
   ButtonContainer,
   Container,
-  ProviderImage,
+  ReviewerContainer,
   TextContainer,
 } from "./styles";
 
-type ProviderCardProps = RectButtonProps & {
+type ReviewCardProps = RectButtonProps & {
   image?: string;
-  providerId: string;
+  reviewerId: string;
   name: string;
-  description: string;
+  title: string;
+  text: string;
   score: number;
   reviewCount: number;
-  city: string;
 };
 
-export default function ProviderCard({
+export default function ReviewCard({
   image = "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg",
-  providerId,
+  reviewerId,
   name,
-  description,
+  title,
+  text,
   score,
   reviewCount,
-  city,
   ...rest
-}: ProviderCardProps) {
+}: ReviewCardProps) {
+  const theme = useTheme();
   return (
     <ButtonContainer {...rest}>
       <Container>
-        <ProviderImage
-          source={{
-            uri: image,
-          }}
-        />
         <TextContainer>
           <AppText bold size="md">
-            {name}
+            {truncatePreserveWord(title, 25)}
           </AppText>
-          <AppText size="sm">{description}</AppText>
-          <AppSpacer verticalSpace="lg" />
+          <AppSpacer verticalSpace="xsm" />
           <AppStarsScore
             score={score}
             reviewCount={reviewCount}
             size="sm"
-            format="numbers"
+            format="stars"
           />
+          <AppSpacer verticalSpace="xsm" />
+          <AppText size="sm">{truncatePreserveWord(text, 105)}</AppText>
         </TextContainer>
+        <ReviewerContainer>
+          <AppAvatar imagePath={image} size={28} />
+          <AppText size="sm" color={theme.colors.text} bold>
+            {name}{" "}
+          </AppText>
+        </ReviewerContainer>
       </Container>
     </ButtonContainer>
   );

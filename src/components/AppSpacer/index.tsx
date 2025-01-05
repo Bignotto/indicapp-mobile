@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 type AppSpacerProps = {
   horizontalSpace?: "xlg" | "lg" | "md" | "sm";
-  verticalSpace?: "xlg" | "lg" | "md" | "sm";
+  verticalSpace?: "xlg" | "lg" | "md" | "sm" | "xsm";
 };
 
 export default function AppSpacer({
