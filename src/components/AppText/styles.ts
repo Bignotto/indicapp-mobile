@@ -10,7 +10,7 @@ export interface AppTextStyleProps extends TextProps {
   bold?: boolean;
   size?: "xlg" | "lg" | "md" | "sm" | "xsm";
   color?: string;
-  align?: 'center' | 'start' | 'end'
+  align?: 'center' | 'start' | 'end' | 'justify' | 'left' | 'right';
 }
 
 export const TextContainer = styled(Text) <AppTextStyleProps>`

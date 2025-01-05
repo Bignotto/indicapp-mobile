@@ -243,6 +243,16 @@ export default function Provider() {
               />
             ))}
           </ScrollView>
+          <View style={{ marginTop: 8 }}>
+            <AppText align="right" size="sm" color={theme.colors.text_gray}>
+              Ver todos{" "}
+              <FontAwesome5
+                name="arrow-right"
+                size={16}
+                color={theme.colors.text_gray}
+              />
+            </AppText>
+          </View>
         </View>
       </View>
       {/* ---------------------------------- */}
