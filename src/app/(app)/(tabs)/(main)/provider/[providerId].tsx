@@ -3,9 +3,11 @@ import AppSpacer from "@components/AppSpacer";
 import AppStarsScore from "@components/AppStarsScore";
 import AppText from "@components/AppText";
 import ReviewCard from "@components/ReviewCard";
+import ServiceAdCard from "@components/ServiceAdCard";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import reviews from "@utils/fakeData/reviews";
+import serviceAds from "@utils/fakeData/serviceAds";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, View } from "react-native";
@@ -194,6 +196,8 @@ export default function Provider() {
             }
           />
         </View>
+
+        {/* ---------------------------------- */}
         <View
           style={{
             marginTop: 24,
@@ -206,6 +210,8 @@ export default function Provider() {
           </AppText>
           <AppText>{provider.description}</AppText>
         </View>
+        {/* ---------------------------------- */}
+
         <View
           style={{
             marginTop: 24,
@@ -239,7 +245,52 @@ export default function Provider() {
           </ScrollView>
         </View>
       </View>
-      <View>
+      {/* ---------------------------------- */}
+
+      <View
+        style={{
+          marginTop: 24,
+          paddingHorizontal: 16,
+        }}
+      >
+        <AppText bold size="lg">
+          Serviços
+        </AppText>
+        <AppSpacer verticalSpace="md" />
+        {serviceAds.slice(0, 3).map((serviceAd) => (
+          <ServiceAdCard
+            key={serviceAd.id}
+            image={serviceAd.provider.image}
+            providerId={serviceAd.provider.id.toString()}
+            name={serviceAd.title}
+            description={serviceAd.description}
+            score={5}
+            reviewCount={5}
+            city={"Rio Claro"}
+          />
+        ))}
+      </View>
+      {/* ---------------------------------- */}
+
+      <View
+        style={{
+          marginTop: 24,
+          paddingHorizontal: 16,
+        }}
+      >
+        <AppButton title="Indicar" variant="transparent" />
+        <AppSpacer verticalSpace="lg" />
+        <AppButton
+          title="Entrar e contato"
+          variant="positive"
+          leftIcon={
+            <FontAwesome5
+              name="whatsapp"
+              size={24}
+              color={theme.colors.white}
+            />
+          }
+        />
         <AppSpacer verticalSpace="lg" />
         <AppSpacer verticalSpace="lg" />
         <AppSpacer verticalSpace="lg" />
