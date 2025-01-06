@@ -1,4 +1,4 @@
-import AppText from "@components/AppText";
+import AppText from "@components/AppComponents/AppText";
 import { IconSizes } from "@components/tokens";
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";

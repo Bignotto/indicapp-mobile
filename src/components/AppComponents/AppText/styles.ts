@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Text, TextProps } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { TextSizes } from "../tokens";
+import { TextSizes } from "../../tokens";
 
 
 export interface AppTextStyleProps extends TextProps {

@@ -1,4 +1,4 @@
-import AppButton from "@components/AppButton";
+import AppButton from "@components/AppComponents/AppButton";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { Container } from "./styles";

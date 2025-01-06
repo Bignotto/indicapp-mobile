@@ -1,6 +1,6 @@
-import AppButton from "@components/AppButton";
-import AppLogo from "@components/AppLogo";
-import AppText from "@components/AppText";
+import AppButton from "@components/AppComponents/AppButton";
+import AppLogo from "@components/AppComponents/AppLogo";
+import AppText from "@components/AppComponents/AppText";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";

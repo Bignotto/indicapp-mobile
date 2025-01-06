@@ -1,6 +1,6 @@
-import AppAvatar from "@components/AppAvatar";
-import AppSpacer from "@components/AppSpacer";
-import AppText from "@components/AppText";
+import AppAvatar from "@components/AppComponents/AppAvatar";
+import AppSpacer from "@components/AppComponents/AppSpacer";
+import AppText from "@components/AppComponents/AppText";
 import SearchInput from "@components/SearchInput";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";

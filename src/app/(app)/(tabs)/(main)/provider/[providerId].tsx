@@ -1,13 +1,11 @@
-import AppButton from "@components/AppButton";
-import AppSpacer from "@components/AppSpacer";
-import AppStarsScore from "@components/AppStarsScore";
-import AppText from "@components/AppText";
-import ReviewCard from "@components/ReviewCard";
-import ServiceAdCard from "@components/ServiceAdCard";
+import AppButton from "@components/AppComponents/AppButton";
+import AppSpacer from "@components/AppComponents/AppSpacer";
+import AppStarsScore from "@components/AppComponents/AppStarsScore";
+import AppText from "@components/AppComponents/AppText";
+import ReviewsList from "@components/ScreenComponents/ProviderScreen/ReviewsList";
+import { ServicesList } from "@components/ScreenComponents/ProviderScreen/ServicesList";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import reviews from "@utils/fakeData/reviews";
-import serviceAds from "@utils/fakeData/serviceAds";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, View } from "react-native";
@@ -41,6 +39,7 @@ export default function Provider() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(providerId);
     setProvider({
       name: "John Doe",
       business: "Jardineiro",
@@ -62,128 +61,172 @@ export default function Provider() {
   }
 
   return (
-    <ScrollView>
-      <View
-        style={{
-          alignItems: "center",
-        }}
-      >
+    <>
+      <ScrollView>
         <View
           style={{
-            marginTop: 16,
-            marginBottom: 8,
-            flexDirection: "column",
-            justifyContent: "space-between",
-            width: "80%",
+            alignItems: "center",
           }}
         >
-          <RectButton
-            onPress={() => router.back()}
+          <View
             style={{
-              width: 32,
-              borderRadius: 16,
-              paddingLeft: 6,
+              marginTop: 16,
+              marginBottom: 8,
+              flexDirection: "column",
+              justifyContent: "space-between",
+              width: "80%",
             }}
           >
-            <FontAwesome5
-              name="angle-left"
-              size={32}
-              color={theme.colors.text_dark}
-            />
-          </RectButton>
-          <AppText align="center" size="lg" bold>
-            {provider.name}
-          </AppText>
-        </View>
-        <Image
-          source={{
-            uri: provider.image,
-          }}
-          style={{
-            width: "80%",
-            height: 350,
-            alignSelf: "center",
-            resizeMode: "cover",
-            borderRadius: 16,
-          }}
-        />
-        <View
-          style={{
-            width: "80%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 8,
-          }}
-        >
-          <AppText>{provider.business}</AppText>
-          <AppStarsScore
-            reviewCount={provider.reviewCount}
-            score={provider.score}
-            format="numbers"
+            <RectButton
+              onPress={() => router.back()}
+              style={{
+                width: 32,
+                borderRadius: 16,
+                paddingLeft: 6,
+              }}
+            >
+              <FontAwesome5
+                name="angle-left"
+                size={32}
+                color={theme.colors.text_dark}
+              />
+            </RectButton>
+            <AppText align="center" size="lg" bold>
+              {provider.name}
+            </AppText>
+          </View>
+          <Image
+            source={{
+              uri: provider.image,
+            }}
+            style={{
+              width: "80%",
+              height: 350,
+              alignSelf: "center",
+              resizeMode: "cover",
+              borderRadius: 16,
+            }}
           />
+          <View
+            style={{
+              width: "80%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 8,
+            }}
+          >
+            <AppText>{provider.business}</AppText>
+            <AppStarsScore
+              reviewCount={provider.reviewCount}
+              score={provider.score}
+              format="numbers"
+            />
+          </View>
+
+          <View
+            style={{
+              width: "80%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 32,
+              paddingHorizontal: 32,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <FontAwesome5
+                name="users"
+                size={32}
+                color={theme.colors.text_dark}
+              />
+              <AppText size="lg" bold>
+                35
+              </AppText>
+              <AppText
+                size="xsm"
+                color={theme.colors.text_gray}
+                style={{
+                  marginTop: -4,
+                }}
+              >
+                Clientes
+              </AppText>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <AntDesign
+                name="like1"
+                size={32}
+                color={theme.colors.text_dark}
+              />
+              <AppText size="lg" bold>
+                30
+              </AppText>
+              <AppText
+                size="xsm"
+                color={theme.colors.text_gray}
+                style={{
+                  marginTop: -4,
+                }}
+              >
+                Indicações
+              </AppText>
+            </View>
+          </View>
+          <View
+            style={{
+              marginTop: 32,
+              width: "100%",
+              paddingHorizontal: 16,
+            }}
+          >
+            <AppButton
+              title="Entrar e contato"
+              variant="positive"
+              leftIcon={
+                <FontAwesome5
+                  name="whatsapp"
+                  size={24}
+                  color={theme.colors.white}
+                />
+              }
+            />
+          </View>
+
+          {/* ---------------------------------- */}
+          <View
+            style={{
+              marginTop: 24,
+              width: "100%",
+              paddingHorizontal: 16,
+            }}
+          >
+            <AppText bold size="lg">
+              Sobre {provider.name}
+            </AppText>
+            <AppText>{provider.description}</AppText>
+          </View>
         </View>
+
+        <ReviewsList />
+        <ServicesList />
 
         <View
           style={{
-            width: "80%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 32,
-            paddingHorizontal: 32,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <FontAwesome5
-              name="users"
-              size={32}
-              color={theme.colors.text_dark}
-            />
-            <AppText size="lg" bold>
-              35
-            </AppText>
-            <AppText
-              size="xsm"
-              color={theme.colors.text_gray}
-              style={{
-                marginTop: -4,
-              }}
-            >
-              Clientes
-            </AppText>
-          </View>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <AntDesign name="like1" size={32} color={theme.colors.text_dark} />
-            <AppText size="lg" bold>
-              30
-            </AppText>
-            <AppText
-              size="xsm"
-              color={theme.colors.text_gray}
-              style={{
-                marginTop: -4,
-              }}
-            >
-              Indicações
-            </AppText>
-          </View>
-        </View>
-        <View
-          style={{
-            marginTop: 32,
-            width: "100%",
+            marginTop: 24,
             paddingHorizontal: 16,
           }}
         >
+          <AppButton title="Indicar" variant="transparent" />
+          <AppSpacer verticalSpace="lg" />
           <AppButton
             title="Entrar e contato"
             variant="positive"
@@ -195,120 +238,14 @@ export default function Provider() {
               />
             }
           />
+          <AppSpacer verticalSpace="lg" />
+          <AppSpacer verticalSpace="lg" />
+          <AppSpacer verticalSpace="lg" />
+          <AppSpacer verticalSpace="lg" />
+          <AppSpacer verticalSpace="lg" />
+          <AppSpacer verticalSpace="lg" />
         </View>
-
-        {/* ---------------------------------- */}
-        <View
-          style={{
-            marginTop: 24,
-            width: "100%",
-            paddingHorizontal: 16,
-          }}
-        >
-          <AppText bold size="lg">
-            Sobre {provider.name}
-          </AppText>
-          <AppText>{provider.description}</AppText>
-        </View>
-        {/* ---------------------------------- */}
-
-        <View
-          style={{
-            marginTop: 24,
-            width: "100%",
-            paddingHorizontal: 16,
-          }}
-        >
-          <AppText bold size="lg">
-            Avaliações
-          </AppText>
-          <ScrollView
-            horizontal
-            contentContainerStyle={{
-              gap: 16,
-            }}
-            style={{
-              marginTop: 8,
-            }}
-          >
-            {reviews.slice(0, 3).map((review) => (
-              <ReviewCard
-                key={review.id}
-                image={review.reviewer.image}
-                reviewerId={review.reviewer.id.toString()}
-                name={review.reviewer.name}
-                title={review.title}
-                text={review.text}
-                score={review.score}
-                reviewCount={1}
-              />
-            ))}
-          </ScrollView>
-          <View style={{ marginTop: 8 }}>
-            <AppText align="right" size="sm" color={theme.colors.text_gray}>
-              Ver todos{" "}
-              <FontAwesome5
-                name="arrow-right"
-                size={16}
-                color={theme.colors.text_gray}
-              />
-            </AppText>
-          </View>
-        </View>
-      </View>
-      {/* ---------------------------------- */}
-
-      <View
-        style={{
-          marginTop: 24,
-          paddingHorizontal: 16,
-        }}
-      >
-        <AppText bold size="lg">
-          Serviços
-        </AppText>
-        <AppSpacer verticalSpace="md" />
-        {serviceAds.slice(0, 3).map((serviceAd) => (
-          <ServiceAdCard
-            key={serviceAd.id}
-            image={serviceAd.provider.image}
-            providerId={serviceAd.provider.id.toString()}
-            name={serviceAd.title}
-            description={serviceAd.description}
-            score={5}
-            reviewCount={5}
-            city={"Rio Claro"}
-          />
-        ))}
-      </View>
-      {/* ---------------------------------- */}
-
-      <View
-        style={{
-          marginTop: 24,
-          paddingHorizontal: 16,
-        }}
-      >
-        <AppButton title="Indicar" variant="transparent" />
-        <AppSpacer verticalSpace="lg" />
-        <AppButton
-          title="Entrar e contato"
-          variant="positive"
-          leftIcon={
-            <FontAwesome5
-              name="whatsapp"
-              size={24}
-              color={theme.colors.white}
-            />
-          }
-        />
-        <AppSpacer verticalSpace="lg" />
-        <AppSpacer verticalSpace="lg" />
-        <AppSpacer verticalSpace="lg" />
-        <AppSpacer verticalSpace="lg" />
-        <AppSpacer verticalSpace="lg" />
-        <AppSpacer verticalSpace="lg" />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }

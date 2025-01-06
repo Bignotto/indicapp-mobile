@@ -1,4 +1,4 @@
-import AppText from "@components/AppText";
+import AppText from "@components/AppComponents/AppText";
 import { useAuth } from "@hooks/AuthContext";
 import { Redirect, Stack } from "expo-router";
 
