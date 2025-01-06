@@ -1,4 +1,4 @@
-import AppText from "@components/AppText";
+import AppText from "@components/AppComponents/AppText";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker, {
   DateTimePickerEvent,

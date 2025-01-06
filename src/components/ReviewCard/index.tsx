@@ -1,7 +1,7 @@
-import AppAvatar from "@components/AppAvatar";
-import AppSpacer from "@components/AppSpacer";
-import AppStarsScore from "@components/AppStarsScore";
-import AppText from "@components/AppText";
+import AppAvatar from "@components/AppComponents/AppAvatar";
+import AppSpacer from "@components/AppComponents/AppSpacer";
+import AppStarsScore from "@components/AppComponents/AppStarsScore";
+import AppText from "@components/AppComponents/AppText";
 import truncatePreserveWord from "@utils/helpers/truncateText";
 import { RectButtonProps } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";

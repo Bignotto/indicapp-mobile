@@ -1,10 +1,10 @@
-import AppButton from "@components/AppButton";
-import AppContainer from "@components/AppContainer";
-import AppInput from "@components/AppInput";
-import AppLogo from "@components/AppLogo";
-import AppPasswordInput from "@components/AppPasswordInput";
-import AppSpacer from "@components/AppSpacer";
-import AppText from "@components/AppText";
+import AppButton from "@components/AppComponents/AppButton";
+import AppContainer from "@components/AppComponents/AppContainer";
+import AppInput from "@components/AppComponents/AppInput";
+import AppLogo from "@components/AppComponents/AppLogo";
+import AppPasswordInput from "@components/AppComponents/AppPasswordInput";
+import AppSpacer from "@components/AppComponents/AppSpacer";
+import AppText from "@components/AppComponents/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "@hooks/AuthContext";

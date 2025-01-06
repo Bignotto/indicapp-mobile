@@ -1,4 +1,4 @@
-import AppText from "@components/AppText";
+import AppText from "@components/AppComponents/AppText";
 import ProviderCard from "@components/ProviderCard";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRouter } from "expo-router";

@@ -1,4 +1,4 @@
-import AppText from "@components/AppText";
+import AppText from "@components/AppComponents/AppText";
 import { TextInputProps, View } from "react-native";
 import { useTheme } from "styled-components";
 import { Container, InputComponent, Wrapper } from "./styles";

@@ -1,14 +1,14 @@
-import AppContainer from "@components/AppContainer";
-import AppDatePicker from "@components/AppDatePicker";
-import AppInput from "@components/AppInput";
-import AppNumberInput from "@components/AppNumberInput";
-import AppPasswordInput from "@components/AppPasswordInput";
-import AppText from "@components/AppText";
+import AppContainer from "@components/AppComponents/AppContainer";
+import AppDatePicker from "@components/AppComponents/AppDatePicker";
+import AppInput from "@components/AppComponents/AppInput";
+import AppNumberInput from "@components/AppComponents/AppNumberInput";
+import AppPasswordInput from "@components/AppComponents/AppPasswordInput";
+import AppText from "@components/AppComponents/AppText";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components/native";
-import AppButton from "../components/AppButton";
+import AppButton from "../components/AppComponents/AppButton";
 
 export default function Components() {
   const theme = useTheme();

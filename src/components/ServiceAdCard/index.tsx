@@ -1,6 +1,6 @@
-import AppSpacer from "@components/AppSpacer";
-import AppStarsScore from "@components/AppStarsScore";
-import AppText from "@components/AppText";
+import AppSpacer from "@components/AppComponents/AppSpacer";
+import AppStarsScore from "@components/AppComponents/AppStarsScore";
+import AppText from "@components/AppComponents/AppText";
 import { RectButtonProps } from "react-native-gesture-handler";
 import { ButtonContainer, Container, TextContainer } from "./styles";
 
