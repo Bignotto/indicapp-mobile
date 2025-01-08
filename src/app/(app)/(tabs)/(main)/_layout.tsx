@@ -9,6 +9,7 @@ export default function Main() {
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="provider" />
+      <Stack.Screen name="results" />
     </Stack>
   );
 }
