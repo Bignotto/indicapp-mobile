@@ -1,10 +1,14 @@
+import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppText from "@components/AppComponents/AppText";
+import ProviderCard from "@components/ProviderCard";
 import SearchInput from "@components/SearchInput";
+import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import users from "@utils/fakeData/users";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
+import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 
 export default function SearchResults() {
@@ -13,7 +17,9 @@ export default function SearchResults() {
   const theme = useTheme();
   const router = useRouter();
 
-  const [searchInput, setSearchInput] = useState(searchTerms);
+  const [searchInput, setSearchInput] = useState(
+    Array.isArray(searchTerms) ? searchTerms[0] : searchTerms
+  );
 
   //TODO: do search
   async function doSearch(searchedText: string) {
@@ -26,35 +32,74 @@ export default function SearchResults() {
   return (
     <View
       style={{
+        flex: 1,
         height: 200,
         paddingHorizontal: 16,
         paddingTop: 24,
       }}
     >
-      <RectButton
-        onPress={() => router.back()}
+      <View
         style={{
-          width: 32,
-          borderRadius: 16,
-          paddingLeft: 6,
+          flexDirection: "row",
+          marginBottom: 28,
         }}
       >
-        <FontAwesome5
-          name="angle-left"
-          size={32}
-          color={theme.colors.text_dark}
-        />
-      </RectButton>
-      <AppText>Resultados para: {searchInput}</AppText>
+        <RectButton
+          onPress={() => router.back()}
+          style={{
+            width: 32,
+            borderRadius: 16,
+            paddingLeft: 6,
+          }}
+        >
+          <FontAwesome5
+            name="angle-left"
+            size={32}
+            color={theme.colors.text_dark}
+          />
+        </RectButton>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+          }}
+        >
+          <AppText size="lg" align="center" color={theme.colors.text}>
+            Rio Claro{" "}
+            <Entypo name="location-pin" size={28} color={theme.colors.text} />
+          </AppText>
+        </View>
+        <View style={{ width: 32 }}></View>
+      </View>
       <SearchInput
         isLoading={isloading}
         onSearch={doSearch}
-        value={searchInput.toString()}
+        value={searchInput}
       />
+      <AppSpacer verticalSpace="lg" />
+      <AppText>Resultados para: {searchInput}</AppText>
+      <AppSpacer verticalSpace="lg" />
+      <ScrollView
+        contentContainerStyle={{
+          gap: 16,
+        }}
+      >
+        {users.map((user) => (
+          <ProviderCard
+            key={user.id}
+            onPress={() =>
+              router.push(`/(app)/(tabs)/(main)/provider/${user.id}`)
+            }
+            city="Rio Claro"
+            name={user.name}
+            image={user.image}
+            description={"Jardineiro"}
+            providerId={`${user.id}`}
+            reviewCount={25}
+            score={100}
+          />
+        ))}
+      </ScrollView>
     </View>
-    //NEXT: list results
-    //https://www.figma.com/community/file/1149280921776146385/aid-online-doctor-appointment-app
-    //https://dribbble.com/shots/13875352-Meditalk-Doctor-Appointment-Mobile-App/attachments/5483088?mode=media
-    //https://www.behance.net/gallery/183679965/Find-Your-Doctor-Healthcare-Application
   );
 }
