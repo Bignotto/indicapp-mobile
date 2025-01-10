@@ -93,7 +93,7 @@ export default function SearchResults() {
             city="Rio Claro"
             name={user.name}
             image={user.image}
-            description={"Jardineiro"}
+            description={user.profession}
             providerId={`${user.id}`}
             reviewCount={25}
             score={100}

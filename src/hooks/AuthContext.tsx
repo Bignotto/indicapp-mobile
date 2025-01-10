@@ -86,7 +86,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 name: userInfo.data.user.name,
                 email: userInfo.data.user.email,
                 image: data.user.user_metadata.avatar_url,
-                accountProvider: "EMAIL",
+                accountProvider: "GOOGLE",
                 accountId: data.user.user_metadata.sub,
                 phoneConfirmed: false,
                 emailConfirmed: true,
@@ -132,33 +132,60 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signIn(email: string, password: string) {
+    setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.trim().toLowerCase(),
       password,
     });
+
     if (error) {
       if (error.status === 400 && error.code === "invalid_credentials")
         throw new InvalidCredentialsError();
 
       throw error;
     }
+
     if (data) {
       console.log("User has logged in...");
       const response = await api
         .get(`/users/email/${email.trim().toLowerCase()}`)
-        .catch((error) => {
-          console.log({ error: "catch error", theError: error });
+        .catch(async (error) => {
+          if (error.response.status === 404) {
+            console.log("Logged user not found? Creating...");
+            const userResponse = await api.post(`/users`, {
+              name: "Please Complete Profile",
+              email: data.user.email,
+              image: data.user.user_metadata.avatar_url,
+              accountProvider: "EMAIL",
+              accountId: data.user.user_metadata.sub,
+              phoneConfirmed: false,
+              emailConfirmed: true,
+            });
+            setUser({
+              id: userResponse.data.user.id,
+              email: userResponse.data.user.email,
+              name: userResponse.data.user.name,
+              avatar_url: userResponse.data.user.image,
+            });
+          }
+          supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+          });
+          setIsLoading(false);
           throw error;
         });
+
       setUser({
         id: response.data.user.id,
         email: response.data.user.email,
         name: response.data.user.name,
         avatar_url: response.data.user.image,
       });
+
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
       });
+      setIsLoading(false);
     }
   }
 
@@ -179,7 +206,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         name: "Manual",
         email: data.user.email,
         image: undefined,
-        accountProvider: "GOOGLE",
+        accountProvider: "EMAIL",
       });
       setUser({
         id: userResponse.data.user.id,
