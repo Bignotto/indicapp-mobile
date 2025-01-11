@@ -153,7 +153,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           if (error.response.status === 404) {
             console.log("Logged user not found? Creating...");
             const userResponse = await api.post(`/users`, {
-              name: "Please Complete Profile",
+              name: "",
               email: data.user.email,
               image: data.user.user_metadata.avatar_url,
               accountProvider: "EMAIL",
@@ -203,7 +203,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (data && data.user) {
       console.log("User creating...");
       const userResponse = await api.post(`/users`, {
-        name: "Manual",
+        name: "",
         email: data.user.email,
         image: undefined,
         accountProvider: "EMAIL",
