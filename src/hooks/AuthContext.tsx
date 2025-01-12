@@ -21,6 +21,8 @@ export type UserProfile = {
   email: string;
   name: string;
   avatar_url: string;
+  city?: string;
+  phone?: string;
 };
 
 interface AuthProviderProps {
