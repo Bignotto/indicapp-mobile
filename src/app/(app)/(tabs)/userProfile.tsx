@@ -54,9 +54,13 @@ export default function UserProfile() {
           }}
         >
           <AppAvatar imagePath={user!.avatar_url ?? undefined} size={172} />
-          <AppSpacer verticalSpace="lg" />
-          <AppSpacer verticalSpace="lg" />
-          <AppSpacer verticalSpace="lg" />
+        </View>
+        <View
+          style={{
+            marginTop: 28,
+            paddingHorizontal: 56,
+          }}
+        >
           <AppInput label="Nome" value={user!.name} placeholder="Seu nome" />
           <AppInput
             label="E-Mail"
@@ -65,46 +69,56 @@ export default function UserProfile() {
             editable={false}
           />
           <AppInput label="Cidade" value={user?.city} placeholder="Cidade" />
-          <AppInput
-            label="Telefone"
-            value={user?.phone}
-            placeholder="(XX) 9XXXX-XXXX"
-          />
         </View>
-        {/* <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: -40,
-        }}
-      >
         <View
           style={{
-            backgroundColor: theme.colors.white,
-            padding: 20,
-            width: "90%",
-            borderRadius: 16,
-            flexDirection: "row",
+            marginTop: 16,
+            paddingHorizontal: 16,
           }}
         >
-          <AppAvatar imagePath={user!.avatar_url ?? undefined} size={64} />
-          <View>
-            <AppText bold size="lg">
-              {user!.name}
-            </AppText>
-            <AppText color={theme.colors.text_gray}>{user!.email}</AppText>
-          </View>
+          <AppButton title="Salvar" variant="solid" />
         </View>
-      </View> */}
+
         <View
           style={{
-            marginTop: 24,
+            marginTop: 16,
+            marginHorizontal: 16,
+            borderRadius: 16,
+            backgroundColor: theme.colors.shape,
+          }}
+        >
+          <View
+            style={{
+              marginTop: 16,
+              paddingHorizontal: 16,
+            }}
+          >
+            <AppText>
+              Para que você possa anunciar seus serviços é preciso que você
+              confirme o seu número de telefone.
+            </AppText>
+          </View>
+          <View
+            style={{
+              marginTop: 16,
+              paddingHorizontal: 56,
+            }}
+          >
+            <AppInput
+              label="Telefone"
+              value={user?.phone}
+              placeholder="(XX) 9XXXX-XXXX"
+            />
+          </View>
+          <AppButton title="Confirmar telefone" variant="solid" outline />
+        </View>
+        <View
+          style={{
+            marginTop: 28,
             paddingHorizontal: 16,
             gap: 16,
           }}
         >
-          <AppButton title="Salvar" variant="solid" />
-          <AppButton title="Confirmar telefone" variant="solid" outline />
           <AppButton title="Alterar senha" variant="solid" outline />
           <AppButton
             title="Sair"
@@ -112,8 +126,9 @@ export default function UserProfile() {
             outline
             onPress={signOut}
           />
+
+          <AppSpacer verticalSpace="lg" />
         </View>
-        <AppSpacer verticalSpace="lg" />
       </ScrollView>
     </>
   );

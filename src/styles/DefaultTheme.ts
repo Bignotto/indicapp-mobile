@@ -25,7 +25,7 @@ export default {
 
     white: "#FFFFFF",
 
-    shape: "#B2BCBF",
+    shape: "#CED5D7",
     shape_light: "#EAEEEF",
     shape_dark: "#364A59"
   },
