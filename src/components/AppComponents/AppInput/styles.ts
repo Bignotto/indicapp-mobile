@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 
 interface WrapperProps {
   error?: string;
+  color?: string;
 }
 
 export const Container = styled.View`
@@ -14,6 +15,7 @@ export const Wrapper = styled.View<WrapperProps>`
   border-color: ${({ theme, error }) =>
     error ? theme.colors.negative : theme.colors.border};
   border-width: 1px;
+  background-color: ${({ theme, color }) => color};
 `;
 
 export const InputComponent = styled.TextInput`

@@ -108,6 +108,7 @@ export default function UserProfile() {
               label="Telefone"
               value={user?.phone}
               placeholder="(XX) 9XXXX-XXXX"
+              color={theme.colors.shape_light}
             />
           </View>
           <AppButton title="Confirmar telefone" variant="solid" outline />
