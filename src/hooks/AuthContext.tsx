@@ -210,6 +210,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         image: undefined,
         accountProvider: "EMAIL",
       });
+      console.log({ userResponseData: userResponse.data });
       setUser({
         id: userResponse.data.user.id,
         email: userResponse.data.user.email,
@@ -225,6 +226,8 @@ function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     setIsLoading(true);
     console.log("useEffect auth hook");
+
+    //NEXT: load user from database with email and set user.id to id that came from database
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
