@@ -1,6 +1,7 @@
 import AppText from "@components/AppComponents/AppText";
 import ProviderCard from "@components/ProviderCard";
 import Entypo from "@expo/vector-icons/Entypo";
+import users from "@utils/fakeData/users";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
@@ -36,19 +37,20 @@ export default function TopProviders() {
             flex: 1,
           }}
         >
-          {Array.from({ length: 10 }).map((_, i) => {
+          {users.map((user) => {
             return (
               <ProviderCard
                 onPress={() =>
-                  router.push(`/(app)/(tabs)/(main)/provider/${i}`)
+                  router.push(`/(app)/(tabs)/(main)/provider/${user.id}`)
                 }
-                key={i}
-                providerId={i.toString()}
-                image="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                name="John Doe"
-                description="Jardineiro"
-                score={45}
-                reviewCount={10}
+                key={user.id}
+                providerId={user.id.toString()}
+                // image="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                image={user.image}
+                name={user.name}
+                description={user.profession}
+                score={user.score * user.reviewCount}
+                reviewCount={user.reviewCount}
                 city="Rio Claro"
               />
             );

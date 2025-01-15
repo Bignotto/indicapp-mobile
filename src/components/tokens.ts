@@ -1,6 +1,6 @@
 export const TextSizes: { [size: string]: number } = {
   xlg: 32,
-  lg: 24,
+  lg: 20,
   md: 16,
   sm: 14,
   xsm: 11,

@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Alert, View } from "react-native";
 
 export default function Login() {
-  const { googleSignIn, signIn } = useAuth();
+  const { googleSignIn, signIn, isLoading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,7 +53,12 @@ export default function Login() {
           value={password}
           onChangeText={setPassword}
         />
-        <AppButton title="Entrar" variant="solid" onPress={handleLogin} />
+        <AppButton
+          title="Entrar"
+          variant="solid"
+          onPress={handleLogin}
+          isLoading={isLoading}
+        />
         <AppText
           size="sm"
           bold

@@ -13,8 +13,8 @@ export default {
     negative: "#E83F5B",
     negative_light: "rgba(232,63,91,.1)",
 
-    // background: "#F6F8F8",
-    background: "#FFFFFF",
+    background: "#F6F8F8",
+    //background: "#FFFFFF",
     text: "#364A59",
     text_dark: "#0C1E29",
     text_gray: "#5B7485",
@@ -25,7 +25,8 @@ export default {
 
     white: "#FFFFFF",
 
-    shape: "#EAEEEF",
+    shape: "#CED5D7",
+    shape_light: "#EAEEEF",
     shape_dark: "#364A59"
   },
 

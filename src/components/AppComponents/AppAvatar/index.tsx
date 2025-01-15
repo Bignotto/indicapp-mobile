@@ -2,11 +2,14 @@ import React from "react";
 import { AvatarImage } from "./styles";
 
 type AvatarImageProps = {
-  imagePath: string;
+  imagePath?: string;
   size: number;
 };
 
-export default function AppAvatar({ imagePath, size }: AvatarImageProps) {
+export default function AppAvatar({
+  imagePath = "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg",
+  size,
+}: AvatarImageProps) {
   return (
     <AvatarImage
       source={{

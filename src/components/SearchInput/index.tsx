@@ -7,10 +7,15 @@ import { InputComponent, InputWrapper, SearchInputWrapper } from "./styles";
 interface SearchInputProps {
   onSearch: (searchedText: string) => void;
   isLoading: boolean;
+  value: string;
 }
 
-export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
-  const [searchedText, setSearchedText] = useState("");
+export default function SearchInput({
+  onSearch,
+  isLoading,
+  value,
+}: SearchInputProps) {
+  const [searchedText, setSearchedText] = useState(value);
 
   const theme = useTheme();
 
@@ -20,6 +25,7 @@ export default function SearchInput({ onSearch, isLoading }: SearchInputProps) {
         <InputComponent
           value={searchedText}
           onChangeText={(t) => setSearchedText(t)}
+          placeholder="Encontrar serviços"
         />
       </InputWrapper>
       <Pressable onPress={() => onSearch(searchedText)}>

@@ -6,9 +6,15 @@ import { Container, InputComponent, Wrapper } from "./styles";
 interface AppInputProps extends TextInputProps {
   label?: string;
   error?: string | undefined;
+  color?: string;
 }
 
-export default function AppInput({ label, error, ...rest }: AppInputProps) {
+export default function AppInput({
+  label,
+  error,
+  color,
+  ...rest
+}: AppInputProps) {
   const theme = useTheme();
 
   return (
@@ -18,7 +24,7 @@ export default function AppInput({ label, error, ...rest }: AppInputProps) {
           <AppText>{label}:</AppText>
         </View>
       )}
-      <Wrapper error={error}>
+      <Wrapper error={error} color={color}>
         <InputComponent {...rest} />
       </Wrapper>
       {error ? (
