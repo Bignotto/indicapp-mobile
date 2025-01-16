@@ -15,6 +15,7 @@ import { Alert, View } from "react-native";
 import * as yup from "yup";
 
 const formValidation = yup.object({
+  name: yup.string().required(),
   email: yup.string().email().required(),
   password: yup.string().required(),
   passwordConfirmation: yup
@@ -34,9 +35,14 @@ export default function Register() {
     resolver: yupResolver(formValidation),
   });
 
-  async function onSubmit({ email, password, passwordConfirmation }: any) {
+  async function onSubmit({
+    name,
+    email,
+    password,
+    passwordConfirmation,
+  }: any) {
     try {
-      await signUp(email, password);
+      await signUp(name, email, password);
       router.replace("/");
     } catch (error) {
       if (error instanceof EmailInUseError) {
@@ -66,6 +72,19 @@ export default function Register() {
         </AppText>
       </AppContainer>
       <View style={{ gap: 8, marginVertical: 32, width: "80%" }}>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <AppInput
+              placeholder="Seu Nome"
+              onChangeText={onChange}
+              value={value}
+              onBlur={onBlur}
+              error={errors.name?.message}
+            />
+          )}
+        />
         <Controller
           control={control}
           name="email"

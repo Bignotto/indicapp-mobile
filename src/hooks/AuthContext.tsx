@@ -33,7 +33,7 @@ interface IAuthContextData {
   session: AuthSession | null;
   user: UserProfile | null;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   googleSignIn: () => Promise<void>;
   isLoading: boolean;
@@ -191,7 +191,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signUp(email: string, password: string) {
+  async function signUp(name: string, email: string, password: string) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -205,7 +205,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (data && data.user) {
       console.log("User creating...");
       const userResponse = await api.post(`/users`, {
-        name: "",
+        name: name.trim(),
         email: data.user.email,
         image: undefined,
         accountProvider: "EMAIL",
@@ -228,15 +228,20 @@ function AuthProvider({ children }: AuthProviderProps) {
     console.log("useEffect auth hook");
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      // setSession(session);
       if (session?.user) {
         const response = await api
           .get(`/users/email/${session.user.email}`)
-          .catch((error) => {
+          .catch(async (error) => {
             console.log({
               message: "session with invalid user",
               error,
             });
+
+            await supabase.auth.signOut();
+            setSession(null);
+            setUser(null);
+
+            throw error;
           });
 
         if (response?.data.user) {
