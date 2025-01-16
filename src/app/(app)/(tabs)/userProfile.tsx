@@ -20,7 +20,6 @@ export default function UserProfile() {
   const [name, setName] = useState(user?.name);
 
   async function handleUpdateProfile() {
-    console.log({ user });
     try {
       const response = await api
         .put(`/users/${user?.id}`, {
@@ -30,8 +29,6 @@ export default function UserProfile() {
           console.log(error);
           throw error;
         });
-
-      router.replace("/");
     } catch (error) {
       console.log(error);
       throw error;
@@ -165,6 +162,4 @@ export default function UserProfile() {
       </ScrollView>
     </>
   );
-  //NEXT: like this
-  //https://www.behance.net/gallery/212277963/Profile-mobile-Screen?tracking_source=search_projects|profile+screen&l=1
 }

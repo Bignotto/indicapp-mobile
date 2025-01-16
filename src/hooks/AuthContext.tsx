@@ -227,17 +227,26 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(true);
     console.log("useEffect auth hook");
 
-    //NEXT: load user from database with email and set user.id to id that came from database
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      // setSession(session);
       if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email ?? "",
-          name: session.user.user_metadata.full_name,
-          avatar_url: session.user.user_metadata.picture,
-        });
+        const response = await api
+          .get(`/users/email/${session.user.email}`)
+          .catch((error) => {
+            console.log({
+              message: "session with invalid user",
+              error,
+            });
+          });
+
+        if (response?.data.user) {
+          setUser({
+            id: response.data.user.id,
+            email: response.data.user.email,
+            name: response.data.user.name,
+            avatar_url: response.data.user.image,
+          });
+        }
       }
       setIsLoading(false);
     });
