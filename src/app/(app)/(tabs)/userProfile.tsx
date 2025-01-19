@@ -20,18 +20,18 @@ export default function UserProfile() {
   const [name, setName] = useState(user?.name);
 
   async function handleUpdateProfile() {
-    try {
-      const response = await api
-        .put(`/users/${user?.id}`, {
-          name: name?.trim(),
-        })
-        .catch((error) => {
-          console.log(error);
-          throw error;
-        });
-    } catch (error) {
-      console.log(error);
-      throw error;
+    //NEXT: implement update user info in auth context
+    const response = await api
+      .put(`/users/${user?.id}`, {
+        name: name?.trim(),
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+
+    if (response.status === 200) {
+      router.replace("/");
     }
   }
 

@@ -204,13 +204,18 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
     if (data && data.user) {
       console.log("User creating...");
-      const userResponse = await api.post(`/users`, {
-        name: name.trim(),
-        email: data.user.email,
-        image: undefined,
-        accountProvider: "EMAIL",
-      });
-      console.log({ userResponseData: userResponse.data });
+      const userResponse = await api
+        .post(`/users`, {
+          name: name.trim(),
+          email: email.toLowerCase().trim(),
+          image: undefined,
+          accountProvider: "EMAIL",
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
+
       setUser({
         id: userResponse.data.user.id,
         email: userResponse.data.user.email,
@@ -219,6 +224,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
+        setIsLoading(false);
       });
     }
   }

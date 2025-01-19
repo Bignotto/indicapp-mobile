@@ -22,7 +22,8 @@ export default function TypesReel() {
   ];
 
   useEffect(() => {
-    console.log(types);
+    // TODO: load types from API
+    //console.log(types);
   }, []);
 
   return (
