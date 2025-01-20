@@ -6,14 +6,29 @@ import AppText from "@components/AppComponents/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { View } from "react-native";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 
 export default function UserProfile() {
-  const { session, signOut, user } = useAuth();
+  const { session, signOut, user, updateUserName } = useAuth();
   const theme = useTheme();
   const router = useRouter();
+
+  const [name, setName] = useState(user?.name);
+
+  async function handleUpdateProfile() {
+    if (!name) return;
+    if (name === user?.name) return;
+    if (name && name?.length < 3) return;
+    try {
+      await updateUserName(name);
+      router.replace("/");
+    } catch (error) {
+      console.log({ error });
+    }
+  }
 
   return (
     <>
@@ -61,7 +76,12 @@ export default function UserProfile() {
             paddingHorizontal: 56,
           }}
         >
-          <AppInput label="Nome" value={user!.name} placeholder="Seu nome" />
+          <AppInput
+            label="Nome"
+            value={name}
+            placeholder="Seu nome"
+            onChangeText={setName}
+          />
           <AppInput
             label="E-Mail"
             value={user!.email}
@@ -76,7 +96,11 @@ export default function UserProfile() {
             paddingHorizontal: 16,
           }}
         >
-          <AppButton title="Salvar" variant="solid" />
+          <AppButton
+            title="Salvar"
+            variant="solid"
+            onPress={handleUpdateProfile}
+          />
         </View>
 
         <View
@@ -133,6 +157,4 @@ export default function UserProfile() {
       </ScrollView>
     </>
   );
-  //NEXT: like this
-  //https://www.behance.net/gallery/212277963/Profile-mobile-Screen?tracking_source=search_projects|profile+screen&l=1
 }

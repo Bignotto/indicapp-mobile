@@ -26,7 +26,7 @@ export default function Header() {
   return (
     <Container>
       <TopContainer>
-        <AppAvatar size={54} imagePath={`${user?.avatar_url}`} />
+        <AppAvatar size={54} imagePath={user!.avatar_url ?? undefined} />
         <TextContainer>
           <AppText color={theme.colors.white}>Olá 👋</AppText>
           <AppText color={theme.colors.white} size="lg" bold>

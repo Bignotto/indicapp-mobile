@@ -17,10 +17,10 @@ import {
 } from "react";
 
 export type UserProfile = {
-  id: string;
-  email: string;
-  name: string;
-  avatar_url: string;
+  id?: string;
+  email?: string;
+  name?: string;
+  avatar_url?: string;
   city?: string;
   phone?: string;
 };
@@ -33,9 +33,10 @@ interface IAuthContextData {
   session: AuthSession | null;
   user: UserProfile | null;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   googleSignIn: () => Promise<void>;
+  updateUserName: (name: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
@@ -191,7 +192,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signUp(email: string, password: string) {
+  async function signUp(name: string, email: string, password: string) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -204,12 +205,18 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
     if (data && data.user) {
       console.log("User creating...");
-      const userResponse = await api.post(`/users`, {
-        name: "",
-        email: data.user.email,
-        image: undefined,
-        accountProvider: "EMAIL",
-      });
+      const userResponse = await api
+        .post(`/users`, {
+          name: name.trim(),
+          email: email.toLowerCase().trim(),
+          image: undefined,
+          accountProvider: "EMAIL",
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
+
       setUser({
         id: userResponse.data.user.id,
         email: userResponse.data.user.email,
@@ -218,23 +225,58 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
+        setIsLoading(false);
       });
     }
+  }
+
+  async function updateUserName(name: string) {
+    const response = await api
+      .put(`/users/${user?.id}`, {
+        name: name.trim(),
+      })
+      .catch((error) => {
+        console.log({ error, message: "error updating user name" });
+        throw error;
+      });
+
+    if (response.status !== 200) throw new Error("Error updating user name");
+
+    setUser({
+      ...user,
+      name: response.data.user.name,
+    });
   }
 
   useEffect(() => {
     setIsLoading(true);
     console.log("useEffect auth hook");
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email ?? "",
-          name: session.user.user_metadata.full_name,
-          avatar_url: session.user.user_metadata.picture,
-        });
+        const response = await api
+          .get(`/users/email/${session.user.email}`)
+          .catch(async (error) => {
+            console.log({
+              message: "session with invalid user",
+              error,
+            });
+
+            await supabase.auth.signOut();
+            setSession(null);
+            setUser(null);
+
+            throw error;
+          });
+
+        if (response?.data.user) {
+          setUser({
+            id: response.data.user.id,
+            email: response.data.user.email,
+            name: response.data.user.name,
+            avatar_url: response.data.user.image,
+          });
+        }
       }
       setIsLoading(false);
     });
@@ -255,6 +297,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         isLoading,
         error,
         googleSignIn,
+        updateUserName,
       }}
     >
       {children}

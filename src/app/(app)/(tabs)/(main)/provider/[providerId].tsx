@@ -39,7 +39,6 @@ export default function Provider() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(providerId);
     setProvider({
       name: "John Doe",
       business: "Jardineiro",
