@@ -5,7 +5,6 @@ import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppText from "@components/AppComponents/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
-import api from "@services/api";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
@@ -13,25 +12,21 @@ import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 
 export default function UserProfile() {
-  const { session, signOut, user } = useAuth();
+  const { session, signOut, user, updateUserName } = useAuth();
   const theme = useTheme();
   const router = useRouter();
 
   const [name, setName] = useState(user?.name);
 
   async function handleUpdateProfile() {
-    //NEXT: implement update user info in auth context
-    const response = await api
-      .put(`/users/${user?.id}`, {
-        name: name?.trim(),
-      })
-      .catch((error) => {
-        console.log(error);
-        throw error;
-      });
-
-    if (response.status === 200) {
+    if (!name) return;
+    if (name === user?.name) return;
+    if (name && name?.length < 3) return;
+    try {
+      await updateUserName(name);
       router.replace("/");
+    } catch (error) {
+      console.log({ error });
     }
   }
 

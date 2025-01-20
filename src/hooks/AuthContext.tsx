@@ -17,10 +17,10 @@ import {
 } from "react";
 
 export type UserProfile = {
-  id: string;
-  email: string;
-  name: string;
-  avatar_url: string;
+  id?: string;
+  email?: string;
+  name?: string;
+  avatar_url?: string;
   city?: string;
   phone?: string;
 };
@@ -36,6 +36,7 @@ interface IAuthContextData {
   signUp: (name: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   googleSignIn: () => Promise<void>;
+  updateUserName: (name: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
@@ -229,6 +230,24 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function updateUserName(name: string) {
+    const response = await api
+      .put(`/users/${user?.id}`, {
+        name: name.trim(),
+      })
+      .catch((error) => {
+        console.log({ error, message: "error updating user name" });
+        throw error;
+      });
+
+    if (response.status !== 200) throw new Error("Error updating user name");
+
+    setUser({
+      ...user,
+      name: response.data.user.name,
+    });
+  }
+
   useEffect(() => {
     setIsLoading(true);
     console.log("useEffect auth hook");
@@ -278,6 +297,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         isLoading,
         error,
         googleSignIn,
+        updateUserName,
       }}
     >
       {children}
