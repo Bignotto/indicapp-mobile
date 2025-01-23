@@ -30,6 +30,13 @@ export default function UserProfile() {
     }
   }
 
+  async function handlePhoneVerify() {
+    //NEXT: validate phone number string before navigate to verification string
+    //NEXT: create new hook to handle phone verification?
+    //NEXT: don't implement supabase in here!!
+    router.navigate("/(app)/(tabs)/(userProfile)/phoneVerification");
+  }
+
   return (
     <>
       <View
@@ -135,7 +142,12 @@ export default function UserProfile() {
               color={theme.colors.shape_light}
             />
           </View>
-          <AppButton title="Confirmar telefone" variant="solid" outline />
+          <AppButton
+            title="Confirmar telefone"
+            variant="solid"
+            outline
+            onPress={handlePhoneVerify}
+          />
         </View>
         <View
           style={{
