@@ -5,6 +5,7 @@ import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppText from "@components/AppComponents/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
+import keepOnlyNumbers from "@utils/helpers/keepOnlyNumbers";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
@@ -17,6 +18,9 @@ export default function UserProfile() {
   const router = useRouter();
 
   const [name, setName] = useState(user?.name);
+  const [phone, setPhone] = useState(user?.phone);
+  const [phoneError, setPhoneError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleUpdateProfile() {
     if (!name) return;
@@ -34,6 +38,18 @@ export default function UserProfile() {
     //NEXT: validate phone number string before navigate to verification string
     //NEXT: create new hook to handle phone verification?
     //NEXT: don't implement supabase in here!!
+
+    if (!phone) {
+      setPhoneError("Telefone não pode estar em branco.");
+      return;
+    }
+
+    const trimmedPhone = keepOnlyNumbers(phone);
+
+    if (trimmedPhone.length < 11) {
+      setPhoneError("Telefone inválido");
+      return;
+    }
     router.navigate("/(app)/(tabs)/(userProfile)/phoneVerification");
   }
 
@@ -137,10 +153,14 @@ export default function UserProfile() {
           >
             <AppInput
               label="Telefone"
-              value={user?.phone}
+              value={phone}
+              onChangeText={setPhone}
               placeholder="(XX) 9XXXX-XXXX"
               color={theme.colors.shape_light}
+              keyboardType="phone-pad"
+              error={phoneError}
             />
+            <AppSpacer verticalSpace="sm" />
           </View>
           <AppButton
             title="Confirmar telefone"
