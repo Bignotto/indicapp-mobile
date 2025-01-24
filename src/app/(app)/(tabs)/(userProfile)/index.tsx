@@ -5,6 +5,7 @@ import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppText from "@components/AppComponents/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
+import { usePhone } from "@hooks/PhoneHook";
 import keepOnlyNumbers from "@utils/helpers/keepOnlyNumbers";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -14,6 +15,7 @@ import { useTheme } from "styled-components";
 
 export default function UserProfile() {
   const { session, signOut, user, updateUserName } = useAuth();
+  const { verifyPhoneNumber } = usePhone();
   const theme = useTheme();
   const router = useRouter();
 
@@ -35,7 +37,6 @@ export default function UserProfile() {
   }
 
   async function handlePhoneVerify() {
-    //NEXT: validate phone number string before navigate to verification string
     //NEXT: create new hook to handle phone verification?
     //NEXT: don't implement supabase in here!!
 
@@ -50,7 +51,17 @@ export default function UserProfile() {
       setPhoneError("Telefone inválido");
       return;
     }
-    router.navigate("/(app)/(tabs)/(userProfile)/phoneVerification");
+
+    try {
+      setIsLoading(true);
+      await verifyPhoneNumber(trimmedPhone);
+      router.navigate(`/(app)/(tabs)/(userProfile)/${trimmedPhone}`);
+    } catch (error) {
+      console.log({ error });
+      return;
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -167,6 +178,7 @@ export default function UserProfile() {
             variant="solid"
             outline
             onPress={handlePhoneVerify}
+            isLoading={isLoading}
           />
         </View>
         <View
