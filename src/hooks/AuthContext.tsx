@@ -37,10 +37,10 @@ interface IAuthContextData {
   signOut: () => Promise<void>;
   googleSignIn: () => Promise<void>;
   updateUserName: (name: string) => Promise<void>;
+  updateUserPhone: (phone: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
-
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
@@ -248,6 +248,25 @@ function AuthProvider({ children }: AuthProviderProps) {
     });
   }
 
+  async function updateUserPhone(phone: string) {
+    const response = await api
+      .put(`/users/${user?.id}`, {
+        phone: phone.trim(),
+        phoneConfirmed: true,
+      })
+      .catch((error) => {
+        console.log({ error, message: "error updating user phone" });
+        throw error;
+      });
+
+    if (response.status !== 200) throw new Error("Error updating user phone");
+
+    setUser({
+      ...user,
+      phone: response.data.user.phone,
+    });
+  }
+
   useEffect(() => {
     setIsLoading(true);
     console.log("useEffect auth hook");
@@ -298,6 +317,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         error,
         googleSignIn,
         updateUserName,
+        updateUserPhone,
       }}
     >
       {children}

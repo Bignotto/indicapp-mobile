@@ -37,9 +37,6 @@ export default function UserProfile() {
   }
 
   async function handlePhoneVerify() {
-    //NEXT: create new hook to handle phone verification?
-    //NEXT: don't implement supabase in here!!
-
     if (!phone) {
       setPhoneError("Telefone não pode estar em branco.");
       return;
@@ -47,7 +44,7 @@ export default function UserProfile() {
 
     const trimmedPhone = keepOnlyNumbers(phone);
 
-    if (trimmedPhone.length < 11) {
+    if (trimmedPhone.length !== 11) {
       setPhoneError("Telefone inválido");
       return;
     }
@@ -55,6 +52,7 @@ export default function UserProfile() {
     try {
       setIsLoading(true);
       await verifyPhoneNumber(trimmedPhone);
+
       router.navigate(`/(app)/(tabs)/(userProfile)/${trimmedPhone}`);
     } catch (error) {
       console.log({ error });

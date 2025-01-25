@@ -4,6 +4,7 @@ import { createContext, ReactNode, useContext } from "react";
 
 interface IPhoneContextData {
   verifyPhoneNumber: (phoneNumber: string) => Promise<void>;
+  verifyToken: (phoneNumber: string, token: string) => Promise<void>;
 }
 
 interface PhoneProviderProps {
@@ -23,10 +24,23 @@ function PhoneProvider({ children }: PhoneProviderProps) {
     return;
   }
 
+  async function verifyToken(phoneNumber: string, token: string) {
+    const { data, error } = await supabase.auth.verifyOtp({
+      phone: `+55${phoneNumber}`,
+      token,
+      type: "sms",
+    });
+
+    if (error) throw new PhoneServiceError();
+
+    return;
+  }
+
   return (
     <PhoneContext.Provider
       value={{
         verifyPhoneNumber,
+        verifyToken,
       }}
     >
       {children}
