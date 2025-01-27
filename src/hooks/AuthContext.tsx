@@ -99,6 +99,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 email: userResponse.data.user.email,
                 name: userResponse.data.user.name,
                 avatar_url: userResponse.data.user.image,
+                phone: userResponse.data.user.phone,
               });
             }
             setIsLoading(false);
@@ -111,6 +112,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           email: response.data.user.email,
           name: response.data.user.name,
           avatar_url: response.data.user.image,
+          phone: response.data.user.phone,
         });
 
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -183,6 +185,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         email: response.data.user.email,
         name: response.data.user.name,
         avatar_url: response.data.user.image,
+        phone: response.data.user.phone,
       });
 
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -222,6 +225,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         email: userResponse.data.user.email,
         name: userResponse.data.user.name,
         avatar_url: userResponse.data.user.image,
+        phone: userResponse.data.user.phone,
       });
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
@@ -294,6 +298,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             email: response.data.user.email,
             name: response.data.user.name,
             avatar_url: response.data.user.image,
+            phone: response.data.user.phone,
           });
         }
       }

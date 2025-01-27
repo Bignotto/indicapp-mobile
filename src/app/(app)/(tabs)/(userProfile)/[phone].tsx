@@ -16,7 +16,7 @@ export default function PhoneVerification() {
 
   const theme = useTheme();
 
-  const { updateUserPhone } = useAuth();
+  const { updateUserPhone, user } = useAuth();
   const { verifyToken } = usePhone();
 
   const [token, setToken] = useState("");

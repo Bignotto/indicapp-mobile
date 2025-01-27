@@ -8,7 +8,7 @@ import { useAuth } from "@hooks/AuthContext";
 import { usePhone } from "@hooks/PhoneHook";
 import keepOnlyNumbers from "@utils/helpers/keepOnlyNumbers";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
@@ -37,6 +37,8 @@ export default function UserProfile() {
   }
 
   async function handlePhoneVerify() {
+    if (phone === user!.phone) return;
+
     if (!phone) {
       setPhoneError("Telefone não pode estar em branco.");
       return;
