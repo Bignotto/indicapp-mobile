@@ -1,6 +1,7 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { useTheme } from "styled-components";
 
 export default function TabLayout() {
@@ -35,7 +36,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="userProfile"
+          name="(userProfile)"
           options={{
             title: "Perfil",
             tabBarIcon: ({ color }) => (

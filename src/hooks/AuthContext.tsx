@@ -37,10 +37,10 @@ interface IAuthContextData {
   signOut: () => Promise<void>;
   googleSignIn: () => Promise<void>;
   updateUserName: (name: string) => Promise<void>;
+  updateUserPhone: (phone: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
-
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
@@ -99,6 +99,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 email: userResponse.data.user.email,
                 name: userResponse.data.user.name,
                 avatar_url: userResponse.data.user.image,
+                phone: userResponse.data.user.phone,
               });
             }
             setIsLoading(false);
@@ -111,6 +112,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           email: response.data.user.email,
           name: response.data.user.name,
           avatar_url: response.data.user.image,
+          phone: response.data.user.phone,
         });
 
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -183,6 +185,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         email: response.data.user.email,
         name: response.data.user.name,
         avatar_url: response.data.user.image,
+        phone: response.data.user.phone,
       });
 
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -222,6 +225,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         email: userResponse.data.user.email,
         name: userResponse.data.user.name,
         avatar_url: userResponse.data.user.image,
+        phone: userResponse.data.user.phone,
       });
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
@@ -245,6 +249,25 @@ function AuthProvider({ children }: AuthProviderProps) {
     setUser({
       ...user,
       name: response.data.user.name,
+    });
+  }
+
+  async function updateUserPhone(phone: string) {
+    const response = await api
+      .put(`/users/${user?.id}`, {
+        phone: phone.trim(),
+        phoneConfirmed: true,
+      })
+      .catch((error) => {
+        console.log({ error, message: "error updating user phone" });
+        throw error;
+      });
+
+    if (response.status !== 200) throw new Error("Error updating user phone");
+
+    setUser({
+      ...user,
+      phone: response.data.user.phone,
     });
   }
 
@@ -275,6 +298,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             email: response.data.user.email,
             name: response.data.user.name,
             avatar_url: response.data.user.image,
+            phone: response.data.user.phone,
           });
         }
       }
@@ -298,6 +322,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         error,
         googleSignIn,
         updateUserName,
+        updateUserPhone,
       }}
     >
       {children}

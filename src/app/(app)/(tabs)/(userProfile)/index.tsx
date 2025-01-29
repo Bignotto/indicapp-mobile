@@ -5,18 +5,24 @@ import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppText from "@components/AppComponents/AppText";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
+import { usePhone } from "@hooks/PhoneHook";
+import keepOnlyNumbers from "@utils/helpers/keepOnlyNumbers";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 
 export default function UserProfile() {
   const { session, signOut, user, updateUserName } = useAuth();
+  const { verifyPhoneNumber } = usePhone();
   const theme = useTheme();
   const router = useRouter();
 
   const [name, setName] = useState(user?.name);
+  const [phone, setPhone] = useState(user?.phone);
+  const [phoneError, setPhoneError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleUpdateProfile() {
     if (!name) return;
@@ -27,6 +33,34 @@ export default function UserProfile() {
       router.replace("/");
     } catch (error) {
       console.log({ error });
+    }
+  }
+
+  async function handlePhoneVerify() {
+    if (phone === user!.phone) return;
+
+    if (!phone) {
+      setPhoneError("Telefone não pode estar em branco.");
+      return;
+    }
+
+    const trimmedPhone = keepOnlyNumbers(phone);
+
+    if (trimmedPhone.length !== 11) {
+      setPhoneError("Telefone inválido");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await verifyPhoneNumber(trimmedPhone);
+
+      router.navigate(`/(app)/(tabs)/(userProfile)/${trimmedPhone}`);
+    } catch (error) {
+      console.log({ error });
+      return;
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -130,12 +164,22 @@ export default function UserProfile() {
           >
             <AppInput
               label="Telefone"
-              value={user?.phone}
+              value={phone}
+              onChangeText={setPhone}
               placeholder="(XX) 9XXXX-XXXX"
               color={theme.colors.shape_light}
+              keyboardType="phone-pad"
+              error={phoneError}
             />
+            <AppSpacer verticalSpace="sm" />
           </View>
-          <AppButton title="Confirmar telefone" variant="solid" outline />
+          <AppButton
+            title="Confirmar telefone"
+            variant="solid"
+            outline
+            onPress={handlePhoneVerify}
+            isLoading={isLoading}
+          />
         </View>
         <View
           style={{
