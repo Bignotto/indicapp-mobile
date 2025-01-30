@@ -42,7 +42,7 @@ export default function ReviewCard({
           </AppText>
           <AppSpacer verticalSpace="xsm" />
           <AppStarsScore
-            score={score}
+            scoreTotal={score}
             reviewCount={reviewCount}
             size="sm"
             format="stars"

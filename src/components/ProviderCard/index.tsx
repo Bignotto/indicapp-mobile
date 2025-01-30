@@ -44,7 +44,7 @@ export default function ProviderCard({
           <AppText size="sm">{description}</AppText>
           <AppSpacer verticalSpace="lg" />
           <AppStarsScore
-            score={score}
+            scoreTotal={score}
             reviewCount={reviewCount}
             size="sm"
             format="numbers"
