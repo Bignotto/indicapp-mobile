@@ -117,7 +117,7 @@ export default function Provider() {
             <AppText>{provider.business}</AppText>
             <AppStarsScore
               reviewCount={provider.reviewCount}
-              score={provider.score}
+              scoreTotal={provider.score}
               format="numbers"
             />
           </View>

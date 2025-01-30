@@ -6,25 +6,27 @@ import { useTheme } from "styled-components";
 import { StarsContainer } from "./styles";
 
 interface StarsScoreProps {
-  score: number;
-  reviewCount: number;
+  scoreTotal?: number;
+  reviewCount?: number;
   size?: "xlg" | "lg" | "md" | "sm" | "xsm";
   format?: "stars" | "numbers";
 }
 
 export default function AppStarsScore({
-  score,
-  reviewCount,
+  scoreTotal = 1,
+  reviewCount = 1,
   size = "md",
   format = "stars",
 }: StarsScoreProps) {
   const theme = useTheme();
 
   const stars =
-    Math.floor(score / reviewCount) > 0 ? Math.floor(score / reviewCount) : 0;
+    Math.floor(scoreTotal / reviewCount) > 0
+      ? Math.floor(scoreTotal / reviewCount)
+      : 0;
   const starCount = stars > 0 ? Array(stars).fill(true) : [];
 
-  const halfStar = score % reviewCount >= 0.5 ? true : false;
+  const halfStar = scoreTotal % reviewCount >= 0.5 ? true : false;
 
   const emptyStars =
     starCount.length === 0 && !halfStar
@@ -69,7 +71,7 @@ export default function AppStarsScore({
     >
       <FontAwesome name="star" size={IconSizes[size] + 4} color="gold" />
       <AppText bold size={size} color={theme.colors.text_dark}>
-        {score / reviewCount}
+        {(scoreTotal / reviewCount).toFixed(1)}
         <AppText size={"xsm"} color={theme.colors.text_gray}>
           {" "}
           / {reviewCount} avaliações{" "}

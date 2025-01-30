@@ -6,14 +6,15 @@ type AvatarImageProps = {
   size: number;
 };
 
-export default function AppAvatar({
-  imagePath = "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg",
-  size,
-}: AvatarImageProps) {
+export default function AppAvatar({ imagePath, size }: AvatarImageProps) {
+  const image =
+    !imagePath || imagePath === "null"
+      ? "https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/profiles/fallback-profile-image_1.jpg"
+      : imagePath;
   return (
     <AvatarImage
       source={{
-        uri: imagePath,
+        uri: image,
       }}
       style={{
         width: size,

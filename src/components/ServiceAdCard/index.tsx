@@ -34,7 +34,7 @@ export default function ServiceAdCard({
           <AppText size="sm">{description}</AppText>
           <AppSpacer verticalSpace="lg" />
           <AppStarsScore
-            score={score}
+            scoreTotal={score}
             reviewCount={reviewCount}
             size="sm"
             format="numbers"
