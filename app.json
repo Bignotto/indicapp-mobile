@@ -31,6 +31,12 @@
           "iosUrlScheme": "com.googleusercontent.apps.873465518843-7eu5rctk4e9ep31cr88p5t282ffehllf"
         }
       ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Para que você possa alterar sua foto de perfil no aplicativo, precisamos acessar sua galeria de fotos."
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",

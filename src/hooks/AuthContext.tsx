@@ -38,6 +38,7 @@ interface IAuthContextData {
   googleSignIn: () => Promise<void>;
   updateUserName: (name: string) => Promise<void>;
   updateUserPhone: (phone: string) => Promise<void>;
+  updateUserAvatar: (avatarUrl: string) => Promise<void>;
   isLoading: boolean;
   error: string | null;
 }
@@ -254,7 +255,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function updateUserPhone(phone: string) {
     const response = await api
-      .put(`/users/${user?.id}`, {
+      .patch(`/users/${user?.id}/phone`, {
         phone: phone.trim(),
         phoneConfirmed: true,
       })
@@ -268,6 +269,25 @@ function AuthProvider({ children }: AuthProviderProps) {
     setUser({
       ...user,
       phone: response.data.user.phone,
+    });
+  }
+
+  async function updateUserAvatar(avatarUrl: string) {
+    console.log("updateing avatar image...", { avatarUrl });
+    const response = await api
+      .put(`/users/${user?.id}`, {
+        image: avatarUrl.trim(),
+      })
+      .catch((error) => {
+        console.log({ error, message: "error updating user avatar" });
+        throw error;
+      });
+
+    if (response.status !== 200) throw new Error("Error updating user avatar");
+
+    setUser({
+      ...user,
+      avatar_url: response.data.user.image,
     });
   }
 
@@ -323,6 +343,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         googleSignIn,
         updateUserName,
         updateUserPhone,
+        updateUserAvatar,
       }}
     >
       {children}

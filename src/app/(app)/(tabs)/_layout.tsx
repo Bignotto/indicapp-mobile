@@ -1,4 +1,5 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { UploadProvider } from "@hooks/UploadContext";
 import { Tabs, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -13,7 +14,7 @@ export default function TabLayout() {
   const hide = path.includes("/provider");
 
   return (
-    <>
+    <UploadProvider>
       <StatusBar backgroundColor={theme.colors.shape_dark} />
       <Tabs
         screenOptions={{
@@ -46,6 +47,6 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </>
+    </UploadProvider>
   );
 }

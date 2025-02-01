@@ -52,16 +52,14 @@ export default function RootLayout() {
   }
 
   return (
-    <>
-      <ThemeProvider theme={DefaultTheme}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <AuthProvider>
-              <Slot />
-            </AuthProvider>
-          </GestureHandlerRootView>
-        </SafeAreaView>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={DefaultTheme}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <AuthProvider>
+            <Slot />
+          </AuthProvider>
+        </GestureHandlerRootView>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
