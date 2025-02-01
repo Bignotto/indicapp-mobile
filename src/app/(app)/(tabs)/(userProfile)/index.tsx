@@ -3,10 +3,13 @@ import AppButton from "@components/AppComponents/AppButton";
 import AppInput from "@components/AppComponents/AppInput";
 import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppText from "@components/AppComponents/AppText";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
 import { usePhone } from "@hooks/PhoneHook";
+import { useUpload } from "@hooks/UploadContext";
 import keepOnlyNumbers from "@utils/helpers/keepOnlyNumbers";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";
@@ -14,8 +17,9 @@ import { RectButton, ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 
 export default function UserProfile() {
-  const { session, signOut, user, updateUserName } = useAuth();
+  const { signOut, user, updateUserName, updateUserAvatar } = useAuth();
   const { verifyPhoneNumber } = usePhone();
+  const { uploadAvatarImage } = useUpload();
   const theme = useTheme();
   const router = useRouter();
 
@@ -64,6 +68,31 @@ export default function UserProfile() {
     }
   }
 
+  async function handleImageSelect() {
+    const selectedImage = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: false,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log({ selectedImage });
+    if (selectedImage.canceled) return;
+
+    try {
+      const response = await uploadAvatarImage({
+        name: `${user?.id}`,
+        path: selectedImage.assets[0].uri,
+      });
+
+      await updateUserAvatar(
+        `https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/avatars//${user?.id}.jpeg`
+      );
+    } catch (error) {
+      console.log({ error });
+    }
+  }
+
   return (
     <>
       <View
@@ -103,6 +132,23 @@ export default function UserProfile() {
           }}
         >
           <AppAvatar imagePath={user!.avatar_url ?? undefined} size={172} />
+          <RectButton
+            onPress={handleImageSelect}
+            style={{
+              position: "absolute",
+              padding: 8,
+              bottom: 0,
+              right: 130,
+              backgroundColor: theme.colors.shape_light,
+              borderRadius: 24,
+            }}
+          >
+            <FontAwesome
+              name="pencil-square-o"
+              size={24}
+              color={theme.colors.text_dark}
+            />
+          </RectButton>
         </View>
         <View
           style={{
