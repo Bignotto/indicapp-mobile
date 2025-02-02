@@ -40,6 +40,7 @@ export default function PhoneVerification() {
       await updateUserPhone(phone.toString());
       router.replace("/");
     } catch (error) {
+      console.log(JSON.stringify(error, null, 2));
       setError("Código inválido");
     } finally {
       setIsLoading(false);

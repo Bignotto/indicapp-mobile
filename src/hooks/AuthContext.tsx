@@ -59,7 +59,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       setSession(null);
       setUser(null);
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error, null, 2));
     } finally {
       setIsLoading(false);
     }
@@ -217,7 +217,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           accountProvider: "EMAIL",
         })
         .catch((error) => {
-          console.log(error);
+          console.log(JSON.stringify(error, null, 2));
           throw error;
         });
 
@@ -257,7 +257,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const response = await api
       .patch(`/users/${user?.id}/phone`, {
         phone: phone.trim(),
-        phoneConfirmed: true,
+        confirmed: true,
       })
       .catch((error) => {
         console.log({ error, message: "error updating user phone" });
@@ -268,12 +268,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     setUser({
       ...user,
-      phone: response.data.user.phone,
+      phone: response.data.phone,
     });
   }
 
   async function updateUserAvatar(avatarUrl: string) {
-    console.log("updateing avatar image...", { avatarUrl });
     const response = await api
       .put(`/users/${user?.id}`, {
         image: avatarUrl.trim(),

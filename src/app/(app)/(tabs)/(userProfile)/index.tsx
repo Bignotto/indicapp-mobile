@@ -36,7 +36,7 @@ export default function UserProfile() {
       await updateUserName(name);
       router.replace("/");
     } catch (error) {
-      console.log({ error });
+      console.log(JSON.stringify(error, null, 2));
     }
   }
 
@@ -61,7 +61,7 @@ export default function UserProfile() {
 
       router.navigate(`/(app)/(tabs)/(userProfile)/${trimmedPhone}`);
     } catch (error) {
-      console.log({ error });
+      console.log(JSON.stringify(error, null, 2));
       return;
     } finally {
       setIsLoading(false);
@@ -76,7 +76,6 @@ export default function UserProfile() {
       quality: 1,
     });
 
-    console.log({ selectedImage });
     if (selectedImage.canceled) return;
 
     try {
@@ -89,7 +88,7 @@ export default function UserProfile() {
         `https://iwfgwdpywrhvaxxwrdyp.supabase.co/storage/v1/object/public/avatars//${user?.id}.jpeg`
       );
     } catch (error) {
-      console.log({ error });
+      console.log(JSON.stringify(error, null, 2));
     }
   }
 
