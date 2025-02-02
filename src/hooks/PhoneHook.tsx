@@ -31,7 +31,10 @@ function PhoneProvider({ children }: PhoneProviderProps) {
       type: "sms",
     });
 
-    if (error) throw new PhoneServiceError();
+    if (error) {
+      console.log(JSON.stringify(error, null, 2));
+      throw new PhoneServiceError();
+    }
 
     return;
   }
