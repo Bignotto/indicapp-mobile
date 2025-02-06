@@ -19,6 +19,8 @@ function PhoneProvider({ children }: PhoneProviderProps) {
       phone: `+55${phoneNumber}`,
     });
 
+    console.log({ data, error });
+
     if (error) throw new PhoneServiceError();
 
     return;
