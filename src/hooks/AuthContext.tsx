@@ -23,6 +23,8 @@ export type UserProfile = {
   avatar_url?: string;
   city?: string;
   phone?: string;
+  phoneConfirmed?: boolean;
+  emailConfirmed?: boolean;
 };
 
 interface AuthProviderProps {
@@ -117,6 +119,8 @@ function AuthProvider({ children }: AuthProviderProps) {
                 name: userResponse.data.user.name,
                 avatar_url: userResponse.data.user.image,
                 phone: userResponse.data.user.phone,
+                phoneConfirmed: userResponse.data.user.phoneConfirmed,
+                emailConfirmed: userResponse.data.user.emailConfirmed,
               });
             }
             setIsLoading(false);
@@ -130,6 +134,8 @@ function AuthProvider({ children }: AuthProviderProps) {
           name: response.data.user.name,
           avatar_url: response.data.user.image,
           phone: response.data.user.phone,
+          phoneConfirmed: response.data.user.phoneConfirmed,
+          emailConfirmed: response.data.user.emailConfirmed,
         });
 
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -202,6 +208,9 @@ function AuthProvider({ children }: AuthProviderProps) {
               email: userResponse.data.user.email,
               name: userResponse.data.user.name,
               avatar_url: userResponse.data.user.image,
+              phone: userResponse.data.user.phone,
+              phoneConfirmed: userResponse.data.user.phoneConfirmed,
+              emailConfirmed: userResponse.data.user.emailConfirmed,
             });
           }
           supabase.auth.getSession().then(({ data: { session } }) => {
@@ -217,6 +226,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         name: response.data.user.name,
         avatar_url: response.data.user.image,
         phone: response.data.user.phone,
+        phoneConfirmed: response.data.user.phoneConfirmed,
+        emailConfirmed: response.data.user.emailConfirmed,
       });
 
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -267,6 +278,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         name: userResponse.data.user.name,
         avatar_url: userResponse.data.user.image,
         phone: userResponse.data.user.phone,
+        phoneConfirmed: userResponse.data.user.phoneConfirmed,
+        emailConfirmed: userResponse.data.user.emailConfirmed,
       });
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
@@ -386,6 +399,8 @@ function AuthProvider({ children }: AuthProviderProps) {
             name: response.data.user.name,
             avatar_url: response.data.user.image,
             phone: response.data.user.phone,
+            phoneConfirmed: response.data.user.phoneConfirmed,
+            emailConfirmed: response.data.user.emailConfirmed,
           });
         }
       }

@@ -228,6 +228,7 @@ export default function UserProfile() {
             outline
             onPress={handlePhoneVerify}
             isLoading={isLoading}
+            enabled={!user?.phoneConfirmed}
           />
         </View>
         <View
