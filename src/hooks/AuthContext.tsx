@@ -82,19 +82,35 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
 
         const response = await api
-          .get(`/users/email/${userInfo.data.user.email}`)
+          .get(`/users/email/${userInfo.data.user.email}`, {
+            headers: {
+              Authorization: `Bearer ${data.session?.access_token}`,
+            },
+          })
           .catch(async (error) => {
+            console.log({
+              message: `searching user by email ${userInfo.data.user.email}`,
+              error,
+            });
             if (error.response.status === 404) {
               console.log("User not found, creating...");
-              const userResponse = await api.post(`/users`, {
-                name: userInfo.data.user.name,
-                email: userInfo.data.user.email,
-                image: data.user.user_metadata.avatar_url,
-                accountProvider: "GOOGLE",
-                accountId: data.user.user_metadata.sub,
-                phoneConfirmed: false,
-                emailConfirmed: true,
-              });
+              const userResponse = await api.post(
+                `/users`,
+                {
+                  name: userInfo.data.user.name,
+                  email: userInfo.data.user.email,
+                  image: userInfo.data.user.photo,
+                  accountProvider: "GOOGLE",
+                  accountId: data.user.user_metadata.sub,
+                  phoneConfirmed: false,
+                  emailConfirmed: true,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${data.session?.access_token}`,
+                  },
+                }
+              );
               setUser({
                 id: userResponse.data.user.id,
                 email: userResponse.data.user.email,
@@ -145,8 +161,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     });
 
     if (error) {
-      if (error.status === 400 && error.code === "invalid_credentials")
+      if (error.status === 400 && error.code === "invalid_credentials") {
+        setIsLoading(false);
         throw new InvalidCredentialsError();
+      }
 
       throw error;
     }
@@ -154,19 +172,31 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (data) {
       console.log("User has logged in...");
       const response = await api
-        .get(`/users/email/${email.trim().toLowerCase()}`)
+        .get(`/users/email/${email}`, {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        })
         .catch(async (error) => {
           if (error.response.status === 404) {
             console.log("Logged user not found? Creating...");
-            const userResponse = await api.post(`/users`, {
-              name: "",
-              email: data.user.email,
-              image: data.user.user_metadata.avatar_url,
-              accountProvider: "EMAIL",
-              accountId: data.user.user_metadata.sub,
-              phoneConfirmed: false,
-              emailConfirmed: true,
-            });
+            const userResponse = await api.post(
+              `/users`,
+              {
+                name: "",
+                email: data.user.email,
+                image: data.user.user_metadata.avatar_url,
+                accountProvider: "EMAIL",
+                accountId: data.user.user_metadata.sub,
+                phoneConfirmed: false,
+                emailConfirmed: true,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${session?.access_token}`,
+                },
+              }
+            );
             setUser({
               id: userResponse.data.user.id,
               email: userResponse.data.user.email,
@@ -201,21 +231,31 @@ function AuthProvider({ children }: AuthProviderProps) {
       email,
       password,
     });
+
     if (error) {
       if (error.status === 422 && error.code === "user_already_exists")
         throw new EmailInUseError();
 
       throw error;
     }
+
     if (data && data.user) {
-      console.log("User creating...");
+      console.log("User creating...", data.session?.access_token);
       const userResponse = await api
-        .post(`/users`, {
-          name: name.trim(),
-          email: email.toLowerCase().trim(),
-          image: undefined,
-          accountProvider: "EMAIL",
-        })
+        .post(
+          `/users`,
+          {
+            name: name.trim(),
+            email: email.toLowerCase().trim(),
+            image: undefined,
+            accountProvider: "EMAIL",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${data.session?.access_token}`,
+            },
+          }
+        )
         .catch((error) => {
           console.log(JSON.stringify(error, null, 2));
           throw error;
@@ -237,9 +277,17 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function updateUserName(name: string) {
     const response = await api
-      .put(`/users/${user?.id}`, {
-        name: name.trim(),
-      })
+      .put(
+        `/users/${user?.id}`,
+        {
+          name: name.trim(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
+      )
       .catch((error) => {
         console.log({ error, message: "error updating user name" });
         throw error;
@@ -255,10 +303,18 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function updateUserPhone(phone: string) {
     const response = await api
-      .patch(`/users/${user?.id}/phone`, {
-        phone: phone.trim(),
-        confirmed: true,
-      })
+      .patch(
+        `/users/${user?.id}/phone`,
+        {
+          phone: phone.trim(),
+          confirmed: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
+      )
       .catch((error) => {
         console.log({ error, message: "error updating user phone" });
         throw error;
@@ -274,9 +330,17 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function updateUserAvatar(avatarUrl: string) {
     const response = await api
-      .put(`/users/${user?.id}`, {
-        image: avatarUrl.trim(),
-      })
+      .put(
+        `/users/${user?.id}`,
+        {
+          image: avatarUrl.trim(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
+      )
       .catch((error) => {
         console.log({ error, message: "error updating user avatar" });
         throw error;
@@ -297,7 +361,11 @@ function AuthProvider({ children }: AuthProviderProps) {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         const response = await api
-          .get(`/users/email/${session.user.email}`)
+          .get(`/users/email/${session.user.email}`, {
+            headers: {
+              Authorization: `Bearer ${session?.access_token}`,
+            },
+          })
           .catch(async (error) => {
             console.log({
               message: "session with invalid user",
@@ -307,7 +375,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             await supabase.auth.signOut();
             setSession(null);
             setUser(null);
-
+            setIsLoading(false);
             throw error;
           });
 

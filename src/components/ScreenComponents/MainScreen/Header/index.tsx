@@ -16,6 +16,8 @@ export default function Header() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  if (!user) return null;
+
   async function doSearch(searchedText: string) {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));

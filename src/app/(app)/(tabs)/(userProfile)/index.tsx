@@ -33,10 +33,13 @@ export default function UserProfile() {
     if (name === user?.name) return;
     if (name && name?.length < 3) return;
     try {
+      setIsLoading(true);
       await updateUserName(name);
       router.replace("/");
     } catch (error) {
       console.log(JSON.stringify(error, null, 2));
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -179,6 +182,7 @@ export default function UserProfile() {
             title="Salvar"
             variant="solid"
             onPress={handleUpdateProfile}
+            isLoading={isLoading}
           />
         </View>
 
