@@ -99,6 +99,7 @@ function AuthProvider({ children }: AuthProviderProps) {
               const userResponse = await api.post(
                 `/users`,
                 {
+                  id: data.user.user_metadata.sub,
                   name: userInfo.data.user.name,
                   email: userInfo.data.user.email,
                   image: userInfo.data.user.photo,
@@ -189,6 +190,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             const userResponse = await api.post(
               `/users`,
               {
+                id: data.user.user_metadata.sub,
                 name: "",
                 email: data.user.email,
                 image: data.user.user_metadata.avatar_url,
@@ -256,6 +258,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         .post(
           `/users`,
           {
+            id: data.user.user_metadata.sub,
             name: name.trim(),
             email: email.toLowerCase().trim(),
             image: undefined,
