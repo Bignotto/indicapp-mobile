@@ -1,4 +1,5 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useAuth } from "@hooks/AuthContext";
 import { UploadProvider } from "@hooks/UploadContext";
 import { Tabs, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -7,7 +8,7 @@ import { useTheme } from "styled-components";
 
 export default function TabLayout() {
   const theme = useTheme();
-
+  const { user } = useAuth();
   // const segments = useSegments();
   const path = usePathname();
 
@@ -32,6 +33,18 @@ export default function TabLayout() {
             title: "Principal",
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="home" size={28} color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+
+        <Tabs.Screen
+          name="(provider)"
+          options={{
+            href: user?.phoneConfirmed ? "/(provider)" : null,
+            title: "Prestador",
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="toolbox" size={28} color={color} />
             ),
             headerShown: false,
           }}
