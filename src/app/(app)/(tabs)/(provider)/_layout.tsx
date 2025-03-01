@@ -10,6 +10,7 @@ export default function ProviderLayout() {
         headerShown: false,
       }}
     >
+      <Stack.Screen name="createServiceAd" />
       <Stack.Screen name="index" />
     </Stack>
   );

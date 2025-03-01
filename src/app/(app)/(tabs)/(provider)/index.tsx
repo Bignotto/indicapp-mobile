@@ -7,12 +7,14 @@ import { ServicesList } from "@components/ScreenComponents/ProviderScreen/Servic
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useAuth } from "@hooks/AuthContext";
+import { useRouter } from "expo-router";
 import { Image, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 
 export default function Provider() {
   const theme = useTheme();
+  const router = useRouter();
   const { user } = useAuth();
   return (
     <ScrollView>
@@ -75,7 +77,15 @@ export default function Provider() {
           marginTop: 32,
         }}
       >
-        <AppButton title="Novo serviço" size="sm" variant="solid" outline />
+        <AppButton
+          title="Novo serviço"
+          size="sm"
+          variant="solid"
+          outline
+          onPress={() => {
+            router.push("/(provider)/createServiceAd");
+          }}
+        />
       </View>
       <ServicesList />
     </ScrollView>
