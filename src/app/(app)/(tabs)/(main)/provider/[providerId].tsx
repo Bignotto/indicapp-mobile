@@ -2,6 +2,7 @@ import AppButton from "@components/AppComponents/AppButton";
 import AppSpacer from "@components/AppComponents/AppSpacer";
 import AppStarsScore from "@components/AppComponents/AppStarsScore";
 import AppText from "@components/AppComponents/AppText";
+import IconKpi from "@components/IconKpi";
 import ReviewsList from "@components/ScreenComponents/ProviderScreen/ReviewsList";
 import { ServicesList } from "@components/ScreenComponents/ProviderScreen/ServicesList";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -130,50 +131,28 @@ export default function Provider() {
             paddingHorizontal: 32,
           }}
         >
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <FontAwesome5
-              name="users"
-              size={32}
-              color={theme.colors.text_dark}
-            />
-            <AppText size="lg" bold>
-              35
-            </AppText>
-            <AppText
-              size="xsm"
-              color={theme.colors.text_gray}
-              style={{
-                marginTop: -4,
-              }}
-            >
-              Clientes
-            </AppText>
-          </View>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <AntDesign name="like1" size={32} color={theme.colors.text_dark} />
-            <AppText size="lg" bold>
-              30
-            </AppText>
-            <AppText
-              size="xsm"
-              color={theme.colors.text_gray}
-              style={{
-                marginTop: -4,
-              }}
-            >
-              Indicações
-            </AppText>
-          </View>
+          <IconKpi
+            icon={
+              <FontAwesome5
+                name="users"
+                size={32}
+                color={theme.colors.text_dark}
+              />
+            }
+            value={64}
+            label="Clientes"
+          />
+          <IconKpi
+            icon={
+              <AntDesign
+                name="like1"
+                size={32}
+                color={theme.colors.text_dark}
+              />
+            }
+            value={28}
+            label="Indicações"
+          />
         </View>
         <View
           style={{
